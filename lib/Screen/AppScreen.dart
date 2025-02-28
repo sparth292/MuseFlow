@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:iluvmusik/Screen/HomeScreen.dart';
+import 'package:iluvmusik/Screen/LibraryScreen.dart';
+import 'package:iluvmusik/Screen/SearchScreen.dart';
 
 class AppScreen extends StatefulWidget {
   @override
@@ -38,23 +41,8 @@ class _AppScreenState extends State<AppScreen> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Home Screen'));
-  }
-}
 
-class SearchScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Search Screen'));
-  }
-}
 
-class LibraryScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Library Screen'));
-  }
-}
+
+
+
