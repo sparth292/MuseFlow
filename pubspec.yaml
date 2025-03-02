@@ -46,7 +46,7 @@ dependencies:
   lottie: ^3.1.0  # Animations
   cached_network_image: ^3.3.1  # Image caching
   http: ^1.2.0  # API requests
-
+  dart_ytmusic_api: ^1.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
