@@ -1,16 +1,18 @@
 # iluvmusik
 
-A new Flutter project.
+🎵 iluvmusik
+A simple and elegant music player application designed for seamless audio playback and an immersive music experience.
 
-## Getting Started
+✨ Features
 
-This project is a starting point for a Flutter application.
+🎶 Play your favorite songs – Supports popular audio formats
 
-A few resources to get you started if this is your first Flutter project:
+🔀 Shuffle & Repeat – Enjoy endless playback options
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+📂 Organized Library – Browse by artist, album, or playlist
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+🎛️ Equalizer Support – Customize your sound experience
+
+🌙 Dark Mode – Enjoy music with a sleek UI
+
+🔔 Background Play – Keep your music playing while using other apps
