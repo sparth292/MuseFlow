@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dart_ytmusic_api/yt_music.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -10,20 +10,16 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
-  final YTMusic _ytMusic = YTMusic();
+  YoutubeExplode _ytExplode = YoutubeExplode();
   List<Map<String, dynamic>> searchResults = [];
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  @override
-  void initState() {
-    super.initState();
-    _initializeYTMusic();
-  }
+  // Currently playing song info
+  String _currentTitle = "";
+  String _currentArtist = "";
+  String _currentThumbnail = "";
 
-  Future<void> _initializeYTMusic() async {
-    await _ytMusic.initialize();
-  }
-
+  // Function to search for songs
   Future<void> _searchSongs(String query) async {
     if (query.isEmpty) {
       setState(() {
@@ -32,27 +28,51 @@ class _SearchScreenState extends State<SearchScreen> {
       return;
     }
 
-    final results = await _ytMusic.searchSongs(query);
+    var searchResultsList = await _ytExplode.search.search(query);
     setState(() {
-      searchResults = results.map((song) {
+      searchResults = searchResultsList.map((video) {
         return {
-          "title": song.name,
-          "artist": song.artist.name,
-          "thumbnail": song.thumbnails.isNotEmpty ? song.thumbnails.first.url : "",
-          "videoId": song.videoId,
+          "title": video.title,
+          "artist": video.author,
+          "thumbnail": video.thumbnails.highResUrl,
+          "videoId": video.id.value,
         };
       }).toList();
     });
   }
 
-  void _playSong(String videoId) async {
+  // Function to play a selected song
+  Future<void> _playSong(String videoId, String title, String artist, String thumbnail) async {
     if (videoId.isEmpty) return;
+
     try {
-      await _audioPlayer.setUrl("https://music.youtube.com/watch?v=$videoId");
+      var manifest = await _ytExplode.videos.streamsClient.getManifest(videoId);
+      var bestAudioStream = manifest.audioOnly.withHighestBitrate();
+      var audioUrl = bestAudioStream.url;
+
+      // Print the audio URL for debugging
+      print("Audio URL: $audioUrl");
+
+      await _audioPlayer.setUrl(audioUrl.toString());
       _audioPlayer.play();
+
+      setState(() {
+        _currentTitle = title;
+        _currentArtist = artist;
+        _currentThumbnail = thumbnail;
+      });
     } catch (e) {
       print("Error playing song: $e");
     }
+  }
+
+
+
+  @override
+  void dispose() {
+    _ytExplode.close();
+    _audioPlayer.dispose();
+    super.dispose();
   }
 
   @override
@@ -70,26 +90,46 @@ class _SearchScreenState extends State<SearchScreen> {
                 border: OutlineInputBorder(),
                 prefixIcon: Icon(Icons.search),
               ),
-              onChanged: _searchSongs,
+              onSubmitted: _searchSongs, // Trigger search when Enter is pressed
             ),
           ),
+
+          // Currently playing song UI
+          if (_currentTitle.isNotEmpty)
+            Card(
+              margin: EdgeInsets.all(8.0),
+              elevation: 4,
+              child: ListTile(
+                leading: CachedNetworkImage(
+                  imageUrl: _currentThumbnail,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+                title: Text(_currentTitle, style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text(_currentArtist),
+                trailing: IconButton(
+                  icon: Icon(Icons.pause),
+                  onPressed: () => _audioPlayer.pause(),
+                ),
+              ),
+            ),
+
           Expanded(
             child: ListView.builder(
               itemCount: searchResults.length,
               itemBuilder: (context, index) {
                 final song = searchResults[index];
                 return ListTile(
-                  leading: song["thumbnail"].isNotEmpty
-                      ? CachedNetworkImage(
+                  leading: CachedNetworkImage(
                     imageUrl: song["thumbnail"],
                     width: 50,
                     height: 50,
                     fit: BoxFit.cover,
-                  )
-                      : Icon(Icons.music_note, size: 50),
+                  ),
                   title: Text(song["title"]),
                   subtitle: Text(song["artist"]),
-                  onTap: () => _playSong(song["videoId"]),
+                  onTap: () => _playSong(song["videoId"], song["title"], song["artist"], song["thumbnail"]),
                 );
               },
             ),
