@@ -111,7 +111,7 @@ class HomeScreen extends StatelessWidget {
                             child: Text(
                               'See All',
                               style: TextStyle(
-                                color: AppTheme.accentTeal,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -127,7 +127,10 @@ class HomeScreen extends StatelessWidget {
                             return Container(
                               height: 200,
                               decoration: BoxDecoration(
-                                color: AppTheme.darkCard.withOpacity(0.5),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surface
+                                    .withOpacity(0.5),
                                 borderRadius: BorderRadius.circular(16),
                               ),
                               child: Center(
@@ -211,7 +214,7 @@ class HomeScreen extends StatelessWidget {
                             child: Text(
                               'See All',
                               style: TextStyle(
-                                color: AppTheme.accentTeal,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -275,7 +278,7 @@ class HomeScreen extends StatelessWidget {
                             child: Text(
                               'See All',
                               style: TextStyle(
-                                color: AppTheme.accentTeal,
+                                color: Theme.of(context).colorScheme.primary,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

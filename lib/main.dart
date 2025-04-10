@@ -21,11 +21,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'iLuvMusik',
-      theme: AppTheme.darkTheme,
-      home: const MainScreen(),
-      debugShowCheckedModeBanner: false,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MusicProvider()),
+      ],
+      child: MaterialApp(
+        title: 'iLuvMusik',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.darkTheme,
+        home: const MainScreen(),
+      ),
     );
   }
 }
@@ -70,8 +75,8 @@ class _MainScreenState extends State<MainScreen> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppTheme.darkBackground.withOpacity(0),
-              AppTheme.darkBackground,
+              Colors.transparent,
+              Colors.black.withOpacity(0.8),
             ],
           ),
         ),
@@ -84,33 +89,33 @@ class _MainScreenState extends State<MainScreen> {
           },
           backgroundColor: Colors.transparent,
           elevation: 0,
-          selectedItemColor: AppTheme.accentTeal,
-          unselectedItemColor: AppTheme.textTertiary,
+          selectedItemColor: AppTheme.primaryRed,
+          unselectedItemColor: AppTheme.textSecondary,
           type: BottomNavigationBarType.fixed,
-          items: [
+          items: const [
             BottomNavigationBarItem(
-              icon: const Icon(Icons.home_outlined),
-              activeIcon: const Icon(Icons.home),
+              icon: Icon(Icons.home_outlined),
+              activeIcon: Icon(Icons.home),
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.explore_outlined),
-              activeIcon: const Icon(Icons.explore),
+              icon: Icon(Icons.explore_outlined),
+              activeIcon: Icon(Icons.explore),
               label: 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.library_music_outlined),
-              activeIcon: const Icon(Icons.library_music),
+              icon: Icon(Icons.library_music_outlined),
+              activeIcon: Icon(Icons.library_music),
               label: 'Library',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.search_outlined),
-              activeIcon: const Icon(Icons.search),
+              icon: Icon(Icons.search_outlined),
+              activeIcon: Icon(Icons.search),
               label: 'Search',
             ),
             BottomNavigationBarItem(
-              icon: const Icon(Icons.person_outline),
-              activeIcon: const Icon(Icons.person),
+              icon: Icon(Icons.person_outline),
+              activeIcon: Icon(Icons.person),
               label: 'Profile',
             ),
           ],

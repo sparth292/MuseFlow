@@ -41,7 +41,10 @@ class ProfileScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: AppTheme.accentTeal.withOpacity(0.3),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.3),
                               blurRadius: 12,
                               offset: const Offset(0, 4),
                             ),
@@ -83,7 +86,10 @@ class ProfileScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: AppTheme.darkCard.withOpacity(0.5),
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surface
+                              .withOpacity(0.5),
                           borderRadius: BorderRadius.circular(16),
                           boxShadow: [
                             BoxShadow(
@@ -110,7 +116,8 @@ class ProfileScreen extends StatelessWidget {
                           // Edit profile functionality
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.accentTeal,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.primary,
                           foregroundColor: Colors.black,
                           padding: const EdgeInsets.symmetric(
                             horizontal: 24,
@@ -120,7 +127,10 @@ class ProfileScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           elevation: 4,
-                          shadowColor: AppTheme.accentTeal.withOpacity(0.3),
+                          shadowColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.3),
                         ),
                         child: const Text(
                           'Edit Profile',
@@ -156,7 +166,7 @@ class ProfileScreen extends StatelessWidget {
                         child: Text(
                           'See All',
                           style: TextStyle(
-                            color: AppTheme.accentTeal,
+                            color: Theme.of(context).colorScheme.primary,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -178,13 +188,19 @@ class ProfileScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(16),
                               decoration: BoxDecoration(
-                                color: AppTheme.darkCard.withOpacity(0.5),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surface
+                                    .withOpacity(0.5),
                                 shape: BoxShape.circle,
                               ),
                               child: Icon(
                                 Icons.favorite_border,
                                 size: 64,
-                                color: AppTheme.textTertiary,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surface
+                                    .withOpacity(0.5),
                               ),
                             ),
                             const SizedBox(height: 24),
@@ -205,7 +221,10 @@ class ProfileScreen extends StatelessWidget {
                                   .textTheme
                                   .bodyMedium
                                   ?.copyWith(
-                                    color: AppTheme.textSecondary,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .surface
+                                        .withOpacity(0.5),
                                   ),
                             ),
                             const SizedBox(height: 24),
@@ -214,7 +233,8 @@ class ProfileScreen extends StatelessWidget {
                                 // Navigate to search screen
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.accentTeal,
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.primary,
                                 foregroundColor: Colors.black,
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 24,
@@ -224,8 +244,10 @@ class ProfileScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(30),
                                 ),
                                 elevation: 4,
-                                shadowColor:
-                                    AppTheme.accentTeal.withOpacity(0.3),
+                                shadowColor: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.3),
                               ),
                               child: const Text(
                                 'Discover Music',
@@ -269,7 +291,7 @@ class ProfileScreen extends StatelessWidget {
         Text(
           value,
           style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppTheme.accentTeal,
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -277,7 +299,7 @@ class ProfileScreen extends StatelessWidget {
         Text(
           label,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: AppTheme.textSecondary,
+                color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
               ),
         ),
       ],
@@ -323,7 +345,10 @@ class ProfileScreen extends StatelessWidget {
                       return Container(
                         width: 60,
                         height: 60,
-                        color: AppTheme.darkCard,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surface
+                            .withOpacity(0.5),
                         child: const Icon(
                           Icons.music_note,
                           color: Colors.white,
@@ -344,7 +369,7 @@ class ProfileScreen extends StatelessWidget {
                       song.title,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.white,
+                            color: Theme.of(context).colorScheme.surface,
                           ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -353,7 +378,10 @@ class ProfileScreen extends StatelessWidget {
                     Text(
                       song.artist,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.textSecondary,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .surface
+                                .withOpacity(0.5),
                           ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -370,7 +398,10 @@ class ProfileScreen extends StatelessWidget {
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.accentTeal.withOpacity(0.3),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -379,7 +410,7 @@ class ProfileScreen extends StatelessWidget {
                   child: IconButton(
                     icon: Icon(
                       isPlaying ? Icons.pause : Icons.play_arrow,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surface,
                     ),
                     onPressed: () {
                       provider.togglePlayPause();
@@ -391,9 +422,9 @@ class ProfileScreen extends StatelessWidget {
                 )
               else
                 IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.play_arrow,
-                    color: AppTheme.accentTeal,
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                   onPressed: () {
                     provider.playSong(song);
@@ -407,7 +438,9 @@ class ProfileScreen extends StatelessWidget {
               IconButton(
                 icon: Icon(
                   song.isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: song.isLiked ? AppTheme.accentTeal : Colors.white,
+                  color: song.isLiked
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.white,
                 ),
                 onPressed: () {
                   provider.toggleLike();

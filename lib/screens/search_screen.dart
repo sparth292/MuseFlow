@@ -38,6 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.darkBackground,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -55,40 +56,40 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               // Search Bar
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Container(
+                  height: 40,
                   decoration: BoxDecoration(
-                    color: AppTheme.darkCard.withOpacity(0.7),
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    color: AppTheme.darkSurface.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextField(
                     controller: _searchController,
                     focusNode: _searchFocusNode,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white,
-                        ),
+                    style: const TextStyle(
+                      color: AppTheme.textPrimary,
+                      fontSize: 16,
+                      letterSpacing: -0.5,
+                    ),
                     decoration: InputDecoration(
-                      hintText: 'Search for songs, artists...',
-                      hintStyle:
-                          Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: AppTheme.textSecondary.withOpacity(0.7),
-                              ),
-                      prefixIcon: const Icon(
+                      hintText: 'Search',
+                      hintStyle: TextStyle(
+                        color: AppTheme.textSecondary.withOpacity(0.7),
+                        fontSize: 16,
+                        letterSpacing: -0.5,
+                      ),
+                      prefixIcon: Icon(
                         Icons.search,
-                        color: AppTheme.accentTeal,
+                        color: AppTheme.textSecondary.withOpacity(0.7),
+                        size: 20,
                       ),
                       suffixIcon: _searchController.text.isNotEmpty
                           ? IconButton(
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.clear,
-                                color: AppTheme.textSecondary,
+                                color: AppTheme.textSecondary.withOpacity(0.7),
+                                size: 20,
                               ),
                               onPressed: () {
                                 _searchController.clear();
@@ -99,10 +100,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             )
                           : null,
                       border: InputBorder.none,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 16),
                     ),
                     onTap: () {
                       setState(() {
@@ -124,18 +123,18 @@ class _SearchScreenState extends State<SearchScreen> {
                           children: [
                             CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
-                                AppTheme.accentTeal,
+                                AppTheme.primaryRed,
                               ),
+                              strokeWidth: 2,
                             ),
                             const SizedBox(height: 16),
                             Text(
                               'Searching...',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge
-                                  ?.copyWith(
-                                    color: AppTheme.textSecondary,
-                                  ),
+                              style: TextStyle(
+                                color: AppTheme.textSecondary,
+                                fontSize: 16,
+                                letterSpacing: -0.5,
+                              ),
                             ),
                           ],
                         ),
@@ -148,72 +147,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                     if (provider.searchResults.isEmpty &&
                         provider.searchQuery.isNotEmpty) {
-                      return Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(16),
-                              decoration: BoxDecoration(
-                                color: AppTheme.darkCard.withOpacity(0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.search_off,
-                                size: 64,
-                                color: AppTheme.textTertiary,
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Text(
-                              'No results found',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Try a different search term',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium
-                                  ?.copyWith(
-                                    color: AppTheme.textSecondary,
-                                  ),
-                            ),
-                            const SizedBox(height: 24),
-                            ElevatedButton(
-                              onPressed: () {
-                                _searchController.clear();
-                                setState(() {
-                                  _isSearching = false;
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppTheme.accentTeal,
-                                foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 24,
-                                  vertical: 12,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
-                                ),
-                              ),
-                              child: const Text(
-                                'Clear Search',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
+                      return _buildNoResults();
                     }
 
                     return _buildSearchResults(provider);
@@ -232,32 +166,44 @@ class _SearchScreenState extends State<SearchScreen> {
       {
         'title': 'Top Hits',
         'icon': Icons.trending_up,
-        'color': Colors.blue,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFFFF2D55), Color(0xFFFF375F)],
+        ),
       },
       {
         'title': 'New Releases',
         'icon': Icons.new_releases,
-        'color': Colors.green,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFF1DB954), Color(0xFF1ED760)],
+        ),
       },
       {
         'title': 'Pop Music',
         'icon': Icons.music_note,
-        'color': Colors.purple,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFF9B2DEF), Color(0xFFB44DFF)],
+        ),
       },
       {
         'title': 'Hip Hop',
         'icon': Icons.music_note,
-        'color': Colors.orange,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFFFF9500), Color(0xFFFFAA33)],
+        ),
       },
       {
         'title': 'Rock',
         'icon': Icons.music_note,
-        'color': Colors.red,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFFFF3B30), Color(0xFFFF5146)],
+        ),
       },
       {
         'title': 'Electronic',
         'icon': Icons.music_note,
-        'color': Colors.teal,
+        'gradient': const LinearGradient(
+          colors: [Color(0xFF5856D6), Color(0xFF7A79FF)],
+        ),
       },
     ];
 
@@ -268,10 +214,12 @@ class _SearchScreenState extends State<SearchScreen> {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             'Browse Categories',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+            ),
           ),
         ),
         Expanded(
@@ -286,32 +234,28 @@ class _SearchScreenState extends State<SearchScreen> {
             itemCount: suggestions.length,
             itemBuilder: (context, index) {
               final suggestion = suggestions[index];
-              return Card(
-                elevation: 4,
-                shadowColor: Colors.black.withOpacity(0.3),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    _searchController.text = suggestion['title'];
-                    setState(() {
-                      _isSearching = true;
-                    });
-                  },
-                  borderRadius: BorderRadius.circular(16),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [
-                          suggestion['color'].withOpacity(0.8),
-                          suggestion['color'].withOpacity(0.6),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(16),
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  gradient: suggestion['gradient'],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
+                  ],
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      _searchController.text = suggestion['title'];
+                      setState(() {
+                        _isSearching = true;
+                      });
+                    },
+                    borderRadius: BorderRadius.circular(12),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -323,11 +267,12 @@ class _SearchScreenState extends State<SearchScreen> {
                         const SizedBox(height: 8),
                         Text(
                           suggestion['title'],
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: -0.5,
+                          ),
                         ),
                       ],
                     ),
@@ -341,9 +286,50 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 
+  Widget _buildNoResults() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppTheme.darkSurface.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.search_off,
+              size: 48,
+              color: AppTheme.textSecondary.withOpacity(0.5),
+            ),
+          ),
+          const SizedBox(height: 24),
+          Text(
+            'No results found',
+            style: TextStyle(
+              color: AppTheme.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Try searching for something else',
+            style: TextStyle(
+              color: AppTheme.textSecondary,
+              fontSize: 16,
+              letterSpacing: -0.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildSearchResults(MusicProvider provider) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       itemCount: provider.searchResults.length,
       itemBuilder: (context, index) {
         final song = provider.searchResults[index];
@@ -356,134 +342,118 @@ class _SearchScreenState extends State<SearchScreen> {
     final isCurrentSong = provider.currentSong?.id == song.id;
     final isPlaying = isCurrentSong && provider.isPlaying;
 
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 4,
-      shadowColor: Colors.black.withOpacity(0.3),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppTheme.darkSurface.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(8),
       ),
-      child: InkWell(
-        onTap: () {
-          provider.playSong(song);
-        },
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Row(
-            children: [
-              // Thumbnail
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    gradient: AppTheme.primaryGradient,
-                  ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => provider.playSong(song),
+          borderRadius: BorderRadius.circular(8),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                // Thumbnail
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
                   child: Image.network(
                     song.thumbnailUrl,
-                    width: 60,
-                    height: 60,
+                    width: 50,
+                    height: 50,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        width: 60,
-                        height: 60,
-                        color: AppTheme.darkCard,
+                        width: 50,
+                        height: 50,
+                        color: AppTheme.darkSurface,
                         child: const Icon(
                           Icons.music_note,
-                          color: Colors.white,
+                          color: AppTheme.textSecondary,
+                          size: 24,
                         ),
                       );
                     },
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
+                const SizedBox(width: 12),
 
-              // Song Info
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      song.title,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      song.artist,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: AppTheme.textSecondary,
-                          ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-
-              // Play/Pause Button
-              if (isCurrentSong)
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: AppTheme.primaryGradient,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppTheme.accentTeal.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 2),
+                // Song Info
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        song.title,
+                        style: TextStyle(
+                          color: AppTheme.textPrimary,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.5,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 2),
+                      Text(
+                        song.artist,
+                        style: TextStyle(
+                          color: AppTheme.textSecondary,
+                          fontSize: 14,
+                          letterSpacing: -0.5,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      isPlaying ? Icons.pause : Icons.play_arrow,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      provider.togglePlayPause();
-                    },
-                    iconSize: 24,
-                    padding: const EdgeInsets.all(8),
-                    constraints: const BoxConstraints(),
-                  ),
-                )
-              else
-                IconButton(
-                  icon: const Icon(
-                    Icons.play_arrow,
-                    color: AppTheme.accentTeal,
-                  ),
-                  onPressed: () {
-                    provider.playSong(song);
-                  },
-                  iconSize: 24,
-                  padding: const EdgeInsets.all(8),
-                  constraints: const BoxConstraints(),
                 ),
 
-              // Like Button
-              IconButton(
-                icon: Icon(
-                  song.isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: song.isLiked ? AppTheme.accentTeal : Colors.white,
+                // Play/Pause Button
+                if (isCurrentSong)
+                  Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      gradient: AppTheme.primaryGradient,
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        isPlaying ? Icons.pause : Icons.play_arrow,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                      onPressed: () => provider.togglePlayPause(),
+                      padding: EdgeInsets.zero,
+                    ),
+                  )
+                else
+                  IconButton(
+                    icon: Icon(
+                      Icons.play_arrow,
+                      color: AppTheme.primaryRed,
+                      size: 24,
+                    ),
+                    onPressed: () => provider.playSong(song),
+                  ),
+
+                // Like Button
+                IconButton(
+                  icon: Icon(
+                    song.isLiked ? Icons.favorite : Icons.favorite_border,
+                    color: song.isLiked
+                        ? AppTheme.primaryRed
+                        : AppTheme.textSecondary,
+                    size: 20,
+                  ),
+                  onPressed: () => provider.toggleLike(),
                 ),
-                onPressed: () {
-                  provider.toggleLike();
-                },
-                iconSize: 22,
-                padding: const EdgeInsets.all(8),
-                constraints: const BoxConstraints(),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
