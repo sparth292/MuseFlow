@@ -1,132 +1,184 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   // Primary colors
-  static const Color primaryRed = Color(0xFFFF2D55); // Apple Music red
-  static const Color secondaryRed =
-      Color(0xFFFF375F); // Lighter red for accents
-  static const Color darkBackground =
-      Color(0xFF000000); // Pure black background
-  static const Color darkSurface = Color(0xFF1C1C1E); // Apple Music card color
+  static const Color primaryColor = Color(0xFF00A4DC); // Vibrant blue
+  static const Color accentColor = Color(0xFF00E5FF); // Electric blue for accents
+  static const Color darkBackground = Color(0xFF000000); // Pure black
+  static const Color darkSurface = Color(0xFF101010); // Very dark gray
+  static const Color cardBackground = Color(0xFF1A1A1A); // Dark gray for cards
   static const Color textPrimary = Colors.white;
-  static const Color textSecondary = Color(0xFF98989D); // Apple Music gray text
-  static const Color dividerColor = Color(0xFF2C2C2E); // Apple Music divider
-
+  static const Color textSecondary = Color(0xFFB3B3B3);
+  static const Color dividerColor = Color(0xFF2A2A2A);
+  
+  // Additional colors
+  static const Color success = Color(0xFF1DB954);
+  static const Color error = Color(0xFFFF4B4B);
+  static const Color warning = Color(0xFFFFBD4A);
+  
   // Gradients
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [primaryRed, secondaryRed],
+    colors: [primaryColor, accentColor],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
+  );
+  
+  static const LinearGradient darkGradient = LinearGradient(
+    colors: [darkBackground, Color(0xFF101010)],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: [0.0, 1.0],
   );
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
     scaffoldBackgroundColor: darkBackground,
-    colorScheme: const ColorScheme.dark(
-      primary: primaryRed,
-      secondary: secondaryRed,
+    canvasColor: darkBackground,
+    colorScheme: ColorScheme.dark(
+      primary: primaryColor,
+      secondary: accentColor,
       background: darkBackground,
       surface: darkSurface,
+      onBackground: textPrimary,
       onSurface: textPrimary,
-      error: primaryRed,
+      error: error,
+      brightness: Brightness.dark,
     ),
-    appBarTheme: const AppBarTheme(
-      backgroundColor: darkBackground,
-      elevation: 0,
-      iconTheme: IconThemeData(color: textPrimary),
-      titleTextStyle: TextStyle(
+    textTheme: TextTheme(
+      displayLarge: GoogleFonts.poppins(
+        color: textPrimary,
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        letterSpacing: -0.5,
+      ),
+      displayMedium: GoogleFonts.poppins(
+        color: textPrimary,
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+        letterSpacing: -0.5,
+      ),
+      headlineLarge: GoogleFonts.poppins(
+        color: textPrimary,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        letterSpacing: -0.5,
+      ),
+      headlineMedium: GoogleFonts.poppins(
         color: textPrimary,
         fontSize: 20,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.5,
+      ),
+      titleLarge: GoogleFonts.inter(
+        color: textPrimary,
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        letterSpacing: -0.25,
+      ),
+      titleMedium: GoogleFonts.inter(
+        color: textPrimary,
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        letterSpacing: -0.25,
+      ),
+      bodyLarge: GoogleFonts.inter(
+        color: textPrimary,
+        fontSize: 16,
+        letterSpacing: -0.25,
+      ),
+      bodyMedium: GoogleFonts.inter(
+        color: textSecondary,
+        fontSize: 14,
+        letterSpacing: -0.25,
+      ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      centerTitle: false,
+      titleTextStyle: GoogleFonts.poppins(
+        color: textPrimary,
+        fontSize: 24,
         fontWeight: FontWeight.bold,
         letterSpacing: -0.5,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       backgroundColor: darkBackground,
-      selectedItemColor: primaryRed,
+      selectedItemColor: primaryColor,
       unselectedItemColor: textSecondary,
       type: BottomNavigationBarType.fixed,
-      elevation: 0,
+      elevation: 8,
     ),
-    textTheme: const TextTheme(
-      headlineLarge: TextStyle(
-        color: textPrimary,
-        fontSize: 34,
-        fontWeight: FontWeight.bold,
-        letterSpacing: -0.5,
+    cardTheme: CardTheme(
+      color: cardBackground,
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
-      headlineMedium: TextStyle(
-        color: textPrimary,
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-        letterSpacing: -0.5,
+      clipBehavior: Clip.antiAlias,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: cardBackground,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
       ),
-      titleLarge: TextStyle(
-        color: textPrimary,
-        fontSize: 22,
-        fontWeight: FontWeight.bold,
-        letterSpacing: -0.5,
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
       ),
-      titleMedium: TextStyle(
-        color: textPrimary,
-        fontSize: 17,
-        fontWeight: FontWeight.w600,
-        letterSpacing: -0.5,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: primaryColor, width: 2),
       ),
-      bodyLarge: TextStyle(
-        color: textPrimary,
-        fontSize: 17,
-        letterSpacing: -0.5,
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: error, width: 2),
       ),
-      bodyMedium: TextStyle(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      hintStyle: GoogleFonts.inter(
         color: textSecondary,
-        fontSize: 15,
-        letterSpacing: -0.5,
+        fontSize: 16,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: textPrimary,
+        elevation: 4,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        textStyle: GoogleFonts.inter(
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.25,
+        ),
       ),
     ),
     iconTheme: const IconThemeData(
       color: textPrimary,
       size: 24,
     ),
-    cardTheme: CardTheme(
-      color: darkSurface,
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      clipBehavior: Clip.antiAlias,
-    ),
     dividerTheme: const DividerThemeData(
       color: dividerColor,
-      thickness: 0.5,
+      thickness: 1,
+      space: 1,
     ),
     sliderTheme: SliderThemeData(
-      activeTrackColor: primaryRed,
-      inactiveTrackColor: darkSurface,
-      thumbColor: primaryRed,
-      trackHeight: 2.0,
+      activeTrackColor: primaryColor,
+      inactiveTrackColor: cardBackground,
+      thumbColor: primaryColor,
+      trackHeight: 4.0,
       thumbShape: const RoundSliderThumbShape(
-        enabledThumbRadius: 6.0,
+        enabledThumbRadius: 8.0,
       ),
-      overlayColor: primaryRed.withOpacity(0.2),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: primaryRed,
-        foregroundColor: textPrimary,
-        elevation: 0,
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        foregroundColor: primaryRed,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
+      overlayColor: primaryColor.withOpacity(0.2),
     ),
   );
 }
