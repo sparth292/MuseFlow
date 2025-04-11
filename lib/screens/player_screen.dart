@@ -139,7 +139,8 @@ class PlayerScreen extends StatelessWidget {
                                   child: Icon(
                                     Icons.music_note,
                                     size: 80,
-                                    color: AppTheme.textSecondary.withOpacity(0.5),
+                                    color:
+                                        AppTheme.textSecondary.withOpacity(0.5),
                                   ),
                                 ),
                               ),
@@ -179,8 +180,12 @@ class PlayerScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32.0),
                     child: ProgressBar(
-                      progress: musicProvider.position,
-                      total: musicProvider.duration,
+                      progress: Duration(
+                          milliseconds:
+                              (musicProvider.position * 1000).round()),
+                      total: Duration(
+                          milliseconds:
+                              (musicProvider.duration * 1000).round()),
                       progressBarColor: AppTheme.primaryColor,
                       baseBarColor: AppTheme.cardBackground,
                       bufferedBarColor: AppTheme.primaryColor.withOpacity(0.3),
@@ -192,7 +197,7 @@ class PlayerScreen extends StatelessWidget {
                         fontSize: 14,
                       ),
                       onSeek: (duration) {
-                        musicProvider.seekTo(duration);
+                        musicProvider.seekTo(duration.inMilliseconds / 1000);
                       },
                     ),
                   ),

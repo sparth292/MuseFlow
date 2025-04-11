@@ -1,224 +1,234 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/music_provider.dart';
+import '../theme/app_theme.dart';
+import '../widgets/gradient_icon.dart';
 
 class LibraryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppTheme.darkBackground,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Header with profile info
-              Container(
-                padding: const EdgeInsets.all(16.0),
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            // Header
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Library',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 32,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Icon(Icons.cast, color: Colors.white),
-                            SizedBox(width: 16),
-                            Icon(Icons.settings, color: Colors.white),
-                          ],
-                        ),
-                      ],
+                    Text(
+                      'Your Library',
+                      style: Theme.of(context).textTheme.displayLarge,
                     ),
-                    SizedBox(height: 24),
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.cyan,
-                          child: Icon(Icons.person, size: 40, color: Colors.white),
-                        ),
-                        SizedBox(width: 16),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Music Lover',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'user@example.com',
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _buildStatItem('12', 'Playlists'),
-                        _buildStatItem('48', 'Liked Songs'),
-                        _buildStatItem('32', 'Following'),
-                      ],
+                    const SizedBox(height: 8),
+                    Text(
+                      'All your favorite music in one place',
+                      style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
                 ),
               ),
+            ),
 
-              // Library sections
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            // Library sections
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildLibrarySection('Liked tracks', Icons.favorite),
-                    _buildLibrarySection('Playlists', Icons.playlist_play),
-                    _buildLibrarySection('Albums', Icons.album),
-                    _buildLibrarySection('Following', Icons.people),
-                    _buildLibrarySection('Stations', Icons.radio),
-                    _buildLibrarySection('Your uploads', Icons.upload_file),
+                    _buildLibrarySection(
+                      context,
+                      'Liked Songs',
+                      Icons.favorite,
+                      AppTheme.error,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildLibrarySection(
+                      context,
+                      'Playlists',
+                      Icons.playlist_play,
+                      AppTheme.primaryColor,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildLibrarySection(
+                      context,
+                      'Albums',
+                      Icons.album,
+                      AppTheme.accentColor,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildLibrarySection(
+                      context,
+                      'Artists',
+                      Icons.person,
+                      AppTheme.success,
+                    ),
                   ],
                 ),
               ),
+            ),
 
-              // Recently played section
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Recently played',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          'See All',
-                          style: TextStyle(
-                            color: Colors.cyan,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 16),
-                    Container(
-                      height: 180,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
+            // Liked Songs
+            Consumer<MusicProvider>(
+              builder: (context, provider, child) {
+                if (provider.likedSongs.isEmpty) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buildRecentItem('Daily Mix 1', 'Playlist'),
-                          _buildRecentItem('Top Hits', 'Playlist'),
-                          _buildRecentItem('Liked Songs', 'Playlist'),
+                          Container(
+                            padding: const EdgeInsets.all(24),
+                            decoration: BoxDecoration(
+                              color: AppTheme.cardBackground,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.favorite_border,
+                              size: 48,
+                              color: AppTheme.textSecondary.withOpacity(0.5),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          Text(
+                            'No liked songs yet',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Like songs to see them here',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+                  );
+                }
 
-  Widget _buildStatItem(String count, String label) {
-    return Column(
-      children: [
-        Text(
-          count,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 14,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLibrarySection(String title, IconData icon) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Row(
-        children: [
-          Icon(icon, color: Colors.white, size: 28),
-          SizedBox(width: 16),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+                return SliverPadding(
+                  padding: const EdgeInsets.all(24.0),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final song = provider.likedSongs[index];
+                        return Container(
+                          margin: const EdgeInsets.only(bottom: 12),
+                          decoration: BoxDecoration(
+                            color: AppTheme.cardBackground,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(12),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                song.thumbnailUrl,
+                                width: 56,
+                                height: 56,
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    width: 56,
+                                    height: 56,
+                                    color: AppTheme.cardBackground,
+                                    child: Icon(
+                                      Icons.music_note,
+                                      color: AppTheme.textSecondary
+                                          .withOpacity(0.5),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            title: Text(
+                              song.title,
+                              style: Theme.of(context).textTheme.titleMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Text(
+                              song.artist,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.favorite,
+                                    color: AppTheme.error,
+                                  ),
+                                  onPressed: () => provider.toggleLike(),
+                                ),
+                                IconButton(
+                                  icon: const GradientIcon(
+                                    Icons.play_circle_fill,
+                                    32,
+                                    LinearGradient(
+                                      colors: [Colors.white, Colors.white70],
+                                    ),
+                                  ),
+                                  onPressed: () => provider.playSong(song),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: provider.likedSongs.length,
+                    ),
+                  ),
+                );
+              },
             ),
-          ),
-          Spacer(),
-          Icon(Icons.chevron_right, color: Colors.grey),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildRecentItem(String title, String type) {
+  Widget _buildLibrarySection(
+    BuildContext context,
+    String title,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
-      width: 140,
-      margin: EdgeInsets.only(right: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 140,
-            decoration: BoxDecoration(
-              color: Colors.grey[900],
-              borderRadius: BorderRadius.circular(8),
-            ),
+      decoration: BoxDecoration(
+        color: AppTheme.cardBackground,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: color.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(12),
           ),
-          SizedBox(height: 8),
-          Text(
-            title,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-            ),
+          child: Icon(
+            icon,
+            color: color,
           ),
-          Text(
-            type,
-            style: TextStyle(
-              color: Colors.grey,
-              fontSize: 12,
-            ),
-          ),
-        ],
+        ),
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+        trailing: const Icon(
+          Icons.chevron_right,
+          color: AppTheme.textSecondary,
+        ),
+        onTap: () {
+          // TODO: Navigate to section
+        },
       ),
     );
   }
-} 
+}

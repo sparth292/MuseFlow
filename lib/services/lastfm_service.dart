@@ -111,7 +111,7 @@ class LastFmService {
   }
 
   // Search for tracks
-  Future<List<SongModel>> searchTracks(String query) async {
+  Future<List<Song>> searchTracks(String query) async {
     try {
       final response = await _makeRequest('track.search', {'track': query});
       return _parseSearchResults(response);
@@ -122,7 +122,7 @@ class LastFmService {
   }
 
   // Get track info
-  Future<SongModel?> getTrackInfo(String artist, String track) async {
+  Future<Song?> getTrackInfo(String artist, String track) async {
     try {
       final response = await _makeRequest(
         'track.getInfo',
@@ -169,7 +169,7 @@ class LastFmService {
   }
 
   // Get user's loved tracks
-  Future<List<SongModel>> getLovedTracks() async {
+  Future<List<Song>> getLovedTracks() async {
     if (!_isAuthorized) return [];
 
     try {
@@ -182,7 +182,7 @@ class LastFmService {
   }
 
   // Get user's recent tracks
-  Future<List<SongModel>> getRecentTracks() async {
+  Future<List<Song>> getRecentTracks() async {
     if (!_isAuthorized) return [];
 
     try {
@@ -195,8 +195,8 @@ class LastFmService {
   }
 
   // Parse search results
-  List<SongModel> _parseSearchResults(XmlDocument response) {
-    final tracks = <SongModel>[];
+  List<Song> _parseSearchResults(XmlDocument response) {
+    final tracks = <Song>[];
 
     try {
       final trackElements = response.findAllElements('track');
@@ -218,12 +218,11 @@ class LastFmService {
           thumbnailUrl = imageElements.last.text;
         }
 
-        tracks.add(SongModel(
+        tracks.add(Song(
           id: '${artist}_$name',
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
-          duration: Duration.zero,
           isLiked: false,
         ));
       }
@@ -235,7 +234,7 @@ class LastFmService {
   }
 
   // Parse track info
-  SongModel? _parseTrackInfo(XmlDocument response) {
+  Song? _parseTrackInfo(XmlDocument response) {
     try {
       final trackElement = response.findElements('track').first;
       final name = trackElement.findElements('name').first.text;
@@ -256,12 +255,11 @@ class LastFmService {
 
       final isLiked = trackElement.findElements('userloved').first.text == '1';
 
-      return SongModel(
+      return Song(
         id: '${artist}_$name',
         title: name,
         artist: artist,
         thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
-        duration: Duration.zero,
         isLiked: isLiked,
       );
     } catch (e) {
@@ -271,8 +269,8 @@ class LastFmService {
   }
 
   // Parse loved tracks
-  List<SongModel> _parseLovedTracks(XmlDocument response) {
-    final tracks = <SongModel>[];
+  List<Song> _parseLovedTracks(XmlDocument response) {
+    final tracks = <Song>[];
 
     try {
       final trackElements = response.findAllElements('track');
@@ -294,12 +292,11 @@ class LastFmService {
           thumbnailUrl = imageElements.last.text;
         }
 
-        tracks.add(SongModel(
+        tracks.add(Song(
           id: '${artist}_$name',
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
-          duration: Duration.zero,
           isLiked: true,
         ));
       }
@@ -311,8 +308,8 @@ class LastFmService {
   }
 
   // Parse recent tracks
-  List<SongModel> _parseRecentTracks(XmlDocument response) {
-    final tracks = <SongModel>[];
+  List<Song> _parseRecentTracks(XmlDocument response) {
+    final tracks = <Song>[];
 
     try {
       final trackElements = response.findAllElements('track');
@@ -334,12 +331,11 @@ class LastFmService {
           thumbnailUrl = imageElements.last.text;
         }
 
-        tracks.add(SongModel(
+        tracks.add(Song(
           id: '${artist}_$name',
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
-          duration: Duration.zero,
           isLiked: false,
         ));
       }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-import 'providers/music_provider.dart';
-import 'screens/home_screen.dart';
-import 'screens/explore_screen.dart';
-import 'screens/library_screen.dart';
-import 'widgets/bottom_nav_bar.dart';
-import 'widgets/mini_player.dart';
-import 'theme/app_theme.dart';
+import 'package:iluvmusik/screens/home_screen.dart';
+import 'package:iluvmusik/screens/explore_screen.dart';
+import 'package:iluvmusik/screens/library_screen.dart';
+import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
+import 'package:iluvmusik/widgets/mini_player.dart';
+import 'package:iluvmusik/theme/app_theme.dart';
+import '../models/song_model.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -84,5 +83,87 @@ class _MainScreenState extends State<MainScreen> {
         ],
       ),
     );
+  }
+}
+
+class MusicProvider extends ChangeNotifier {
+  bool _isInitialized = false;
+  Song? _currentSong;
+  bool _isPlaying = false;
+  double _position = 0.0;
+  double _duration = 0.0;
+  List<Song> _likedSongs = [];
+  List<Song> _searchResults = [];
+  String _searchQuery = '';
+  bool _isLoading = false;
+
+  // Getters
+  Song? get currentSong => _currentSong;
+  bool get isPlaying => _isPlaying;
+  double get position => _position;
+  double get duration => _duration;
+  List<Song> get likedSongs => _likedSongs;
+  List<Song> get searchResults => _searchResults;
+  String get searchQuery => _searchQuery;
+  bool get isLoading => _isLoading;
+
+  void initialize() {
+    if (!_isInitialized) {
+      // Add initialization logic here
+      _isInitialized = true;
+      notifyListeners();
+    }
+  }
+
+  void playSong(Song song) {
+    _currentSong = song;
+    _isPlaying = true;
+    notifyListeners();
+  }
+
+  void togglePlayPause() {
+    _isPlaying = !_isPlaying;
+    notifyListeners();
+  }
+
+  void toggleLike() {
+    if (_currentSong != null) {
+      _currentSong!.isLiked = !_currentSong!.isLiked;
+      if (_currentSong!.isLiked) {
+        _likedSongs.add(_currentSong!);
+      } else {
+        _likedSongs.removeWhere((song) => song.id == _currentSong!.id);
+      }
+      notifyListeners();
+    }
+  }
+
+  void seekTo(double duration) {
+    _position = duration;
+    notifyListeners();
+  }
+
+  void skipToNext() {
+    // Implement skip to next song logic
+    notifyListeners();
+  }
+
+  void skipToPrevious() {
+    // Implement skip to previous song logic
+    notifyListeners();
+  }
+
+  void searchSongs(String query) {
+    _searchQuery = query;
+    _isLoading = true;
+    notifyListeners();
+
+    // Simulate search delay
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _isLoading = false;
+      // Implement actual search logic here
+      _searchResults = []; // Replace with actual search results
+      notifyListeners();
+    });
   }
 }

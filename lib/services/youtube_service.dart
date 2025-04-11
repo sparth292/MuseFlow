@@ -18,18 +18,17 @@ class YouTubeService {
   Duration get duration => _duration;
 
   // Search for songs
-  Future<List<SongModel>> searchSongs(String query) async {
+  Future<List<Song>> searchSongs(String query) async {
     try {
       final searchResults = await _yt.search.search(query);
-      final songs = <SongModel>[];
+      final songs = <Song>[];
 
       for (final video in searchResults.take(20)) {
-        songs.add(SongModel.fromYouTube(
+        songs.add(Song.fromYouTube(
           videoId: video.id.value,
           title: video.title,
           artist: video.author,
           thumbnailUrl: video.thumbnails.highResUrl,
-          duration: video.duration ?? Duration.zero,
         ));
       }
 
@@ -41,15 +40,15 @@ class YouTubeService {
   }
 
   // Initialize player for a song
-  Future<void> initializePlayer(SongModel song) async {
-    if (song.youtubeId == null) return;
+  Future<void> initializePlayer(Song song) async {
+    if (song.id.isEmpty) return;
 
     // Dispose existing controller if any
     await dispose();
 
     // Create new controller
     _controller = YoutubePlayerController(
-      initialVideoId: song.youtubeId!,
+      initialVideoId: song.id,
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: false,
@@ -87,7 +86,7 @@ class YouTubeService {
   }
 
   // Play song
-  Future<void> playSong(SongModel song) async {
+  Future<void> playSong(Song song) async {
     await initializePlayer(song);
   }
 
