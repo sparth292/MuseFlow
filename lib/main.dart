@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:iluvmusik/screens/home_screen.dart';
 import 'package:iluvmusik/screens/explore_screen.dart';
 import 'package:iluvmusik/screens/library_screen.dart';
 import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
+import 'package:iluvmusik/providers/music_provider.dart';
+import 'package:iluvmusik/theme/app_theme.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => MusicProvider()..initialize(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -14,11 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'iLuvMusik',
-      theme: ThemeData(
-        primaryColor: Colors.cyan,
-        scaffoldBackgroundColor: Colors.black,
-        brightness: Brightness.dark,
-      ),
+      theme: AppTheme.darkTheme,
       home: MainScreen(),
       debugShowCheckedModeBanner: false,
     );
@@ -42,12 +46,10 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppTheme.darkBackground,
       body: Stack(
         children: [
-          Container(
-            color: Colors.white,
-          ),
-          // _screens[_currentIndex],
+          _screens[_currentIndex],
           Positioned(
             left: 0,
             right: 0,

@@ -1,0 +1,2 @@
+D:/Parth/Desktop/musicApp/iLuvMusik/android/app/.cxx/Debug/3l3z501t/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Parth/Desktop/musicApp/iLuvMusik/android/app/.cxx/Debug/3l3z501t/armeabi-v7a/CMakeFiles/rebuild_cache.dir
