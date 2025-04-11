@@ -6,13 +6,13 @@ plugins {
 }
 
 android {
-    namespace "com.example.iluvmusik"  // ✅ Add this line
+    namespace "com.example.iluvmusik"
 
-    compileSdkVersion 34  // Ensure this is updated
+    compileSdkVersion 34  // Updated to latest version
 
     defaultConfig {
         applicationId "com.example.iluvmusik"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21  // Updated for YouTube player
         targetSdkVersion flutter.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
@@ -24,17 +24,23 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"  // Updated JVM target
+        jvmTarget = "17"
     }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
-            signingConfig = signingConfigs.debug
+            signingConfig signingConfigs.debug
         }
     }
 }
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.7'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.18.7'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.7'
 }
