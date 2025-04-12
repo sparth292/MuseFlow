@@ -6,6 +6,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import '../providers/music_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/gradient_icon.dart';
+import 'package:marquee/marquee.dart';
 
 class PlayerScreen extends StatelessWidget {
   const PlayerScreen({super.key});
@@ -17,7 +18,7 @@ class PlayerScreen extends StatelessWidget {
         final currentSong = musicProvider.currentSong;
         if (currentSong == null) {
           return Scaffold(
-            backgroundColor: AppTheme.darkBackground,
+            backgroundColor: Colors.black,
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +26,7 @@ class PlayerScreen extends StatelessWidget {
                   Icon(
                     Icons.music_note,
                     size: 64,
-                    color: AppTheme.textSecondary.withOpacity(0.5),
+                    color: Colors.grey,
                   ),
                   const SizedBox(height: 16),
                   Text(
@@ -33,7 +34,7 @@ class PlayerScreen extends StatelessWidget {
                     style: GoogleFonts.poppins(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.textSecondary,
+                      color: Colors.grey,
                     ),
                   ),
                 ],
@@ -43,242 +44,213 @@ class PlayerScreen extends StatelessWidget {
         }
 
         return Scaffold(
-          backgroundColor: AppTheme.darkBackground,
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  AppTheme.primaryColor.withOpacity(0.15),
-                  AppTheme.darkBackground,
-                  AppTheme.darkBackground,
-                ],
-              ),
-            ),
-            child: SafeArea(
-              child: Column(
-                children: [
-                  // Custom App Bar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          icon: const GradientIcon(
-                            Icons.keyboard_arrow_down,
-                            28,
-                            LinearGradient(
-                              colors: [Colors.white, Colors.white70],
-                            ),
-                          ),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Now Playing',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppTheme.textPrimary,
-                          ),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const GradientIcon(
-                            Icons.more_vert,
-                            24,
-                            LinearGradient(
-                              colors: [Colors.white, Colors.white70],
-                            ),
-                          ),
-                          onPressed: () {
-                            // TODO: Show more options
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // Album Art
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            height: 320,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: AppTheme.primaryColor.withOpacity(0.2),
-                                  blurRadius: 30,
-                                  offset: const Offset(0, 10),
-                                ),
-                              ],
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: CachedNetworkImage(
-                                imageUrl: currentSong.thumbnailUrl,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Container(
-                                  color: AppTheme.cardBackground,
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Container(
-                                  color: AppTheme.cardBackground,
-                                  child: Icon(
-                                    Icons.music_note,
-                                    size: 80,
-                                    color:
-                                        AppTheme.textSecondary.withOpacity(0.5),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 40),
-                          // Song Info
-                          Text(
-                            currentSong.title,
-                            style: GoogleFonts.poppins(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            currentSong.artist,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: AppTheme.textSecondary,
-                            ),
-                            textAlign: TextAlign.center,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+          backgroundColor: Colors.black,
+          body: SafeArea(
+            child: Column(
+              children: [
+                // Header with down arrow and options
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.keyboard_arrow_down,
+                            color: Colors.white),
+                        onPressed: () => Navigator.pop(context),
                       ),
-                    ),
-                  ),
-
-                  // Progress Bar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                    child: ProgressBar(
-                      progress: Duration(
-                          milliseconds:
-                              (musicProvider.position * 1000).round()),
-                      total: Duration(
-                          milliseconds:
-                              (musicProvider.duration * 1000).round()),
-                      progressBarColor: AppTheme.primaryColor,
-                      baseBarColor: AppTheme.cardBackground,
-                      bufferedBarColor: AppTheme.primaryColor.withOpacity(0.3),
-                      thumbColor: AppTheme.primaryColor,
-                      barHeight: 4.0,
-                      thumbRadius: 8.0,
-                      timeLabelTextStyle: GoogleFonts.inter(
-                        color: AppTheme.textSecondary,
-                        fontSize: 14,
+                      Text(
+                        'Now Playing',
+                        style: GoogleFonts.poppins(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      onSeek: (duration) {
-                        musicProvider.seekTo(duration.inMilliseconds / 1000);
-                      },
-                    ),
+                      IconButton(
+                        icon: Icon(Icons.more_vert, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ],
                   ),
+                ),
 
-                  // Controls
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(32.0, 24.0, 32.0, 40.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // Album art and song info
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: [
-                        IconButton(
-                          icon: Icon(
-                            currentSong.isLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            color: currentSong.isLiked
-                                ? AppTheme.error
-                                : AppTheme.textSecondary,
-                            size: 28,
-                          ),
-                          onPressed: () => musicProvider.toggleLike(),
-                        ),
-                        IconButton(
-                          icon: const GradientIcon(
-                            Icons.skip_previous,
-                            36,
-                            LinearGradient(
-                              colors: [Colors.white, Colors.white70],
-                            ),
-                          ),
-                          onPressed: () => musicProvider.skipToPrevious(),
-                        ),
                         Container(
-                          width: 72,
-                          height: 72,
+                          margin: EdgeInsets.all(32),
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: MediaQuery.of(context).size.width * 0.8,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [
-                                AppTheme.primaryColor,
-                                AppTheme.accentColor,
-                              ],
-                            ),
+                            borderRadius: BorderRadius.circular(8),
                             boxShadow: [
                               BoxShadow(
-                                color: AppTheme.primaryColor.withOpacity(0.3),
-                                blurRadius: 15,
-                                offset: const Offset(0, 8),
+                                color: Colors.cyan.withOpacity(0.2),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
                               ),
                             ],
                           ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              onTap: () => musicProvider.togglePlayPause(),
-                              customBorder: const CircleBorder(),
-                              child: Icon(
-                                musicProvider.isPlaying
-                                    ? Icons.pause
-                                    : Icons.play_arrow,
-                                size: 40,
-                                color: Colors.white,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: currentSong.thumbnailUrl,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                color: Colors.grey[900],
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.cyan,
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                color: Colors.grey[900],
+                                child: Icon(
+                                  Icons.music_note,
+                                  size: 80,
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                        IconButton(
-                          icon: const GradientIcon(
-                            Icons.skip_next,
-                            36,
-                            LinearGradient(
-                              colors: [Colors.white, Colors.white70],
-                            ),
+
+                        // Song info with marquee
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 32),
+                          child: Column(
+                            children: [
+                              Container(
+                                height: 30,
+                                child: Marquee(
+                                  text: currentSong.title,
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  scrollAxis: Axis.horizontal,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  blankSpace: 20.0,
+                                  velocity: 30.0,
+                                  pauseAfterRound: Duration(seconds: 1),
+                                  startPadding: 10.0,
+                                  accelerationDuration: Duration(seconds: 1),
+                                  accelerationCurve: Curves.linear,
+                                  decelerationDuration:
+                                      Duration(milliseconds: 500),
+                                  decelerationCurve: Curves.easeOut,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                currentSong.artist,
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
-                          onPressed: () => musicProvider.skipToNext(),
+                        ),
+
+                        // Progress bar and controls
+                        Padding(
+                          padding: const EdgeInsets.all(32.0),
+                          child: Column(
+                            children: [
+                              ProgressBar(
+                                progress: Duration(
+                                    milliseconds:
+                                        (musicProvider.position * 1000)
+                                            .round()),
+                                total: Duration(
+                                    milliseconds:
+                                        (musicProvider.duration * 1000)
+                                            .round()),
+                                progressBarColor: Colors.cyan,
+                                baseBarColor: Colors.grey[900],
+                                bufferedBarColor: Colors.cyan.withOpacity(0.3),
+                                thumbColor: Colors.cyan,
+                                barHeight: 3.0,
+                                thumbRadius: 6.0,
+                                timeLabelTextStyle: GoogleFonts.poppins(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                                onSeek: (duration) {
+                                  musicProvider
+                                      .seekTo(duration.inMilliseconds / 1000);
+                                },
+                              ),
+
+                              SizedBox(height: 24),
+
+                              // Control buttons
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  IconButton(
+                                    icon: Icon(
+                                      currentSong.isLiked
+                                          ? Icons.favorite
+                                          : Icons.favorite_border,
+                                      color: currentSong.isLiked
+                                          ? Colors.red
+                                          : Colors.white,
+                                    ),
+                                    onPressed: () => musicProvider.toggleLike(),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.skip_previous,
+                                        color: Colors.white, size: 36),
+                                    onPressed: () =>
+                                        musicProvider.skipToPrevious(),
+                                  ),
+                                  Container(
+                                    width: 64,
+                                    height: 64,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Colors.cyan,
+                                    ),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        musicProvider.isPlaying
+                                            ? Icons.pause
+                                            : Icons.play_arrow,
+                                        color: Colors.black,
+                                        size: 36,
+                                      ),
+                                      onPressed: () =>
+                                          musicProvider.togglePlayPause(),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.skip_next,
+                                        color: Colors.white, size: 36),
+                                    onPressed: () => musicProvider.skipToNext(),
+                                  ),
+                                  IconButton(
+                                    icon:
+                                        Icon(Icons.repeat, color: Colors.white),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );

@@ -37,7 +37,8 @@ class ExploreScreen extends StatelessWidget {
                           hintStyle: TextStyle(color: Colors.grey),
                           prefixIcon: Icon(Icons.search, color: Colors.grey),
                           border: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                          contentPadding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 12),
                         ),
                       ),
                     ),
@@ -99,7 +100,8 @@ class ExploreScreen extends StatelessWidget {
                         children: [
                           _buildTrendingCard('Top 50 Global', '1M followers'),
                           _buildTrendingCard('Viral Hits', '500K followers'),
-                          _buildTrendingCard('New Music Friday', '750K followers'),
+                          _buildTrendingCard(
+                              'New Music Friday', '750K followers'),
                         ],
                       ),
                     ),
@@ -250,4 +252,4 @@ class ExploreScreen extends StatelessWidget {
       ),
     );
   }
-} 
+}

@@ -7,15 +7,14 @@ plugins {
 
 android {
     namespace "com.example.iluvmusik"
-
-    compileSdkVersion 34  // Updated to latest version
+    compileSdk 35
 
     defaultConfig {
         applicationId "com.example.iluvmusik"
-        minSdkVersion 21  // Updated for YouTube player
-        targetSdkVersion flutter.targetSdkVersion
+        minSdk 21
+        targetSdk 34
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.0"
     }
 
     compileOptions {
