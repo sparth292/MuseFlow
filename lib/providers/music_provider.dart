@@ -7,92 +7,19 @@ import 'package:iluvmusik/screens/library_screen.dart';
 import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
 import 'package:iluvmusik/theme/app_theme.dart';
-import '../models/song_model.dart';
+import '../models/song.dart';
+import '../services/youtube_service.dart';
+import 'package:flutter/foundation.dart';
+import 'package:just_audio/just_audio.dart';
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
-  );
-
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => MusicProvider()..initialize(),
-      child: MyApp(),
-    ),
-  );
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'iLuvMusik',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
-      home: MainScreen(),
-    );
-  }
-}
-
-class MainScreen extends StatefulWidget {
-  @override
-  _MainScreenState createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  int _currentIndex = 0;
-
-  final List<Widget> _screens = [
-    HomeScreen(),
-    ExploreScreen(),
-    LibraryScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _screens[_currentIndex],
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                MiniPlayer(),
-                BottomNavBar(
-                  currentIndex: _currentIndex,
-                  onTap: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MusicProvider extends ChangeNotifier {
-  bool _isInitialized = false;
+class MusicProvider with ChangeNotifier {
+  final _player = AudioPlayer();
+  final _youtubeService = YoutubeService();
   Song? _currentSong;
-  bool _isPlaying = false;
-  double _position = 0.0;
-  double _duration = 0.0;
   List<Song> _likedSongs = [];
+  bool _isPlaying = false;
+  double _position = 0;
+  double _duration = 0;
   List<Song> _searchResults = [];
   String _searchQuery = '';
   bool _isLoading = false;
@@ -107,23 +34,49 @@ class MusicProvider extends ChangeNotifier {
   String get searchQuery => _searchQuery;
   bool get isLoading => _isLoading;
 
-  void initialize() {
-    if (!_isInitialized) {
-      // Add initialization logic here
-      _isInitialized = true;
+  MusicProvider() {
+    _initializePlayer();
+  }
+
+  void _initializePlayer() {
+    _player.positionStream.listen((position) {
+      _position = position.inMilliseconds / 1000;
       notifyListeners();
+    });
+
+    _player.durationStream.listen((duration) {
+      if (duration != null) {
+        _duration = duration.inMilliseconds / 1000;
+        notifyListeners();
+      }
+    });
+
+    _player.playingStream.listen((playing) {
+      _isPlaying = playing;
+      notifyListeners();
+    });
+  }
+
+  Future<void> playSong(Song song) async {
+    try {
+      final streamUrl = await _youtubeService.getStreamUrl(song.id);
+      if (streamUrl != null) {
+        await _player.setUrl(streamUrl);
+        _currentSong = song;
+        _player.play();
+        notifyListeners();
+      }
+    } catch (e) {
+      print('Error playing song: $e');
     }
   }
 
-  void playSong(Song song) {
-    _currentSong = song;
-    _isPlaying = true;
-    notifyListeners();
-  }
-
   void togglePlayPause() {
-    _isPlaying = !_isPlaying;
-    notifyListeners();
+    if (_isPlaying) {
+      _player.pause();
+    } else {
+      _player.play();
+    }
   }
 
   void toggleLike() {
@@ -138,19 +91,16 @@ class MusicProvider extends ChangeNotifier {
     }
   }
 
-  void seekTo(double duration) {
-    _position = duration;
-    notifyListeners();
+  void seekTo(double position) {
+    _player.seek(Duration(milliseconds: (position * 1000).round()));
   }
 
   void skipToNext() {
-    // Implement skip to next song logic
-    notifyListeners();
+    // TODO: Implement playlist functionality
   }
 
   void skipToPrevious() {
-    // Implement skip to previous song logic
-    notifyListeners();
+    // TODO: Implement playlist functionality
   }
 
   void searchSongs(String query) {
@@ -165,5 +115,12 @@ class MusicProvider extends ChangeNotifier {
       _searchResults = []; // Replace with actual search results
       notifyListeners();
     });
+  }
+
+  @override
+  void dispose() {
+    _player.dispose();
+    _youtubeService.dispose();
+    super.dispose();
   }
 }

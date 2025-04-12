@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:iluvmusik/screens/home_screen.dart';
-import 'package:iluvmusik/screens/explore_screen.dart';
+import 'package:iluvmusik/screens/search_screen.dart';
 import 'package:iluvmusik/screens/library_screen.dart';
 import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
@@ -9,29 +9,37 @@ import 'package:iluvmusik/providers/music_provider.dart';
 import 'package:iluvmusik/theme/app_theme.dart';
 
 void main() {
-  runApp(
-    ChangeNotifierProvider(
-      create: (_) => MusicProvider()..initialize(),
-      child: MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'iLuvMusik',
-      theme: AppTheme.darkTheme,
-      home: MainScreen(),
-      debugShowCheckedModeBanner: false,
+    return ChangeNotifierProvider(
+      create: (_) => MusicProvider(),
+      child: MaterialApp(
+        title: 'iLuvMusik',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.dark(
+            primary: AppTheme.primaryColor,
+            secondary: AppTheme.accentColor,
+            background: AppTheme.darkBackground,
+          ),
+        ),
+        home: const MainScreen(),
+      ),
     );
   }
 }
 
 class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
+
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
@@ -39,14 +47,14 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    ExploreScreen(),
+    SearchScreen(),
     LibraryScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.darkBackground,
+      backgroundColor: Colors.black,
       body: Stack(
         children: [
           _screens[_currentIndex],
@@ -57,14 +65,33 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                MiniPlayer(),
-                BottomNavBar(
-                  currentIndex: _currentIndex,
-                  onTap: (index) {
+                const MiniPlayer(),
+                NavigationBar(
+                  backgroundColor: Colors.black,
+                  selectedIndex: _currentIndex,
+                  onDestinationSelected: (index) {
                     setState(() {
                       _currentIndex = index;
                     });
                   },
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(Icons.home_outlined),
+                      selectedIcon: Icon(Icons.home, color: Colors.cyan),
+                      label: 'Home',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.search_outlined),
+                      selectedIcon: Icon(Icons.search, color: Colors.cyan),
+                      label: 'Search',
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.library_music_outlined),
+                      selectedIcon:
+                          Icon(Icons.library_music, color: Colors.cyan),
+                      label: 'Library',
+                    ),
+                  ],
                 ),
               ],
             ),

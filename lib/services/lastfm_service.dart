@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:xml/xml.dart';
-import '../models/song_model.dart';
+import '../models/song.dart';
 
 class LastFmService {
   static const String _apiKey = 'YOUR_API_KEY'; // Replace with your API key
@@ -223,6 +223,7 @@ class LastFmService {
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
+          duration: '0:00',
           isLiked: false,
         ));
       }
@@ -260,6 +261,7 @@ class LastFmService {
         title: name,
         artist: artist,
         thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
+        duration: '0:00',
         isLiked: isLiked,
       );
     } catch (e) {
@@ -297,6 +299,7 @@ class LastFmService {
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
+          duration: '0:00',
           isLiked: true,
         ));
       }
@@ -336,6 +339,7 @@ class LastFmService {
           title: name,
           artist: artist,
           thumbnailUrl: thumbnailUrl ?? 'https://via.placeholder.com/300',
+          duration: '0:00',
           isLiked: false,
         ));
       }
