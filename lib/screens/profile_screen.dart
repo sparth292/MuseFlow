@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../providers/music_provider.dart';
-import '../models/song_model.dart';
+
 import '../theme/app_theme.dart';
 import '../widgets/gradient_icon.dart';
 
@@ -297,12 +297,13 @@ class ProfileScreen extends StatelessWidget {
                                       child: CircularProgressIndicator(),
                                     ),
                                   ),
-                                  errorWidget: (context, url, error) => Container(
+                                  errorWidget: (context, url, error) =>
+                                      Container(
                                     color: AppTheme.cardBackground,
                                     child: Icon(
                                       Icons.music_note,
-                                      color:
-                                          AppTheme.textSecondary.withOpacity(0.5),
+                                      color: AppTheme.textSecondary
+                                          .withOpacity(0.5),
                                     ),
                                   ),
                                 ),

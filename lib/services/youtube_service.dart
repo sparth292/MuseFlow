@@ -14,6 +14,8 @@ class YoutubeService {
                 artist: video.author,
                 thumbnailUrl: video.thumbnails.highResUrl,
                 duration: video.duration?.toString() ?? '0:00',
+                youtubeUrl: video.id.value,
+                isLiked: false,
               ))
           .toList();
     } catch (e) {

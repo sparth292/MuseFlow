@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../providers/music_provider.dart';
 import '../models/song.dart';
-import '../services/youtube_service.dart';
+import '../theme/app_theme.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -12,186 +12,161 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
-  final YoutubeService _youtubeService = YoutubeService();
-  List<Song> _searchResults = [];
-  bool _isLoading = false;
-  String _error = '';
 
-  Future<void> _performSearch(String query) async {
-    if (query.trim().isEmpty) return;
+  @override
+  void initState() {
+    super.initState();
+    _searchController.addListener(_onSearchChanged);
+  }
 
-    setState(() {
-      _isLoading = true;
-      _error = '';
-    });
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
 
-    try {
-      final results = await _youtubeService.searchSongs(query);
-      setState(() {
-        _searchResults = results;
-        _isLoading = false;
-      });
-    } catch (e) {
-      setState(() {
-        _error = 'Failed to search songs. Please try again.';
-        _isLoading = false;
-      });
-    }
+  void _onSearchChanged() {
+    final provider = Provider.of<MusicProvider>(context, listen: false);
+    provider.searchSongs(_searchController.text);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: AppTheme.darkBackground,
       body: SafeArea(
         child: Column(
           children: [
-            // Search header
-            Container(
-              padding: const EdgeInsets.all(16),
-              color: Colors.black,
-              child: Container(
-                height: 40,
-                decoration: BoxDecoration(
-                  color: Colors.grey[900],
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  style: GoogleFonts.poppins(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Search YouTube songs...',
-                    hintStyle: GoogleFonts.poppins(color: Colors.grey),
-                    border: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
+            // Search bar
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TextField(
+                controller: _searchController,
+                style: Theme.of(context).textTheme.bodyLarge,
+                decoration: InputDecoration(
+                  hintText: 'Search songs, artists, or albums',
+                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                  prefixIcon: Icon(Icons.search, color: AppTheme.textSecondary),
+                  filled: true,
+                  fillColor: AppTheme.cardBackground,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
                   ),
-                  onChanged: (value) {
-                    if (value.length >= 3) {
-                      _performSearch(value);
-                    }
-                  },
-                  onSubmitted: _performSearch,
                 ),
               ),
             ),
 
             // Search results or initial state
             Expanded(
-              child: _searchController.text.isEmpty
-                  ? Center(
+              child: Consumer<MusicProvider>(
+                builder: (context, provider, child) {
+                  if (provider.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (_searchController.text.isEmpty) {
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
                             Icons.search,
                             size: 64,
-                            color: Colors.grey[700],
+                            color: AppTheme.textSecondary,
                           ),
                           const SizedBox(height: 16),
                           Text(
                             'Search for your favorite songs',
-                            style: GoogleFonts.poppins(
-                              color: Colors.grey[600],
-                              fontSize: 16,
-                            ),
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: AppTheme.textSecondary,
+                                    ),
                           ),
                         ],
                       ),
-                    )
-                  : _isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(color: Colors.cyan),
-                        )
-                      : _error.isNotEmpty
-                          ? Center(
-                              child: Text(
-                                _error,
-                                style: GoogleFonts.poppins(color: Colors.grey),
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: _searchResults.length,
-                              itemBuilder: (context, index) {
-                                final song = _searchResults[index];
-                                return ListTile(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
-                                    vertical: 8,
-                                  ),
-                                  leading: ClipRRect(
-                                    borderRadius: BorderRadius.circular(4),
-                                    child: Image.network(
-                                      song.thumbnailUrl,
-                                      width: 56,
-                                      height: 56,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        return Container(
-                                          width: 56,
-                                          height: 56,
-                                          color: Colors.grey[900],
-                                          child: const Icon(
-                                            Icons.music_note,
-                                            color: Colors.grey,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  title: Text(
-                                    song.title,
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Text(
-                                    song.artist,
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        song.duration,
-                                        style: GoogleFonts.poppins(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 12),
-                                      IconButton(
-                                        icon: const Icon(Icons.play_arrow,
-                                            color: Colors.cyan),
-                                        onPressed: () {
-                                          context
-                                              .read<MusicProvider>()
-                                              .playSong(song);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+                    );
+                  }
+
+                  if (provider.searchResults.isEmpty) {
+                    return Center(
+                      child: Text(
+                        'No results found',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: AppTheme.textSecondary,
                             ),
+                      ),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: provider.searchResults.length,
+                    itemBuilder: (context, index) {
+                      final song = provider.searchResults[index];
+                      return ListTile(
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: Image.network(
+                            song.thumbnailUrl,
+                            width: 56,
+                            height: 56,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: 56,
+                                height: 56,
+                                color: AppTheme.cardBackground,
+                                child: Icon(
+                                  Icons.music_note,
+                                  color: AppTheme.textSecondary,
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        title: Text(
+                          song.title,
+                          style: Theme.of(context).textTheme.titleMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          song.artist,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(
+                                Icons.favorite,
+                                color: AppTheme.error,
+                              ),
+                              onPressed: () => provider.toggleLikeSong(song),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.play_circle_fill,
+                                color: AppTheme.primaryColor,
+                              ),
+                              onPressed: () => provider.playSong(song),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    _youtubeService.dispose();
-    super.dispose();
   }
 }
