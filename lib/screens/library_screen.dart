@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/music_provider.dart';
 import '../theme/app_theme.dart';
 import '../widgets/gradient_icon.dart';
+import 'liked_songs_screen.dart';
 
 class LibraryScreen extends StatelessWidget {
   @override
@@ -164,7 +165,8 @@ class LibraryScreen extends StatelessWidget {
                                     Icons.favorite,
                                     color: AppTheme.error,
                                   ),
-                                  onPressed: () => provider.toggleLike(),
+                                  onPressed: () =>
+                                      provider.toggleLikeSong(song),
                                 ),
                                 IconButton(
                                   icon: const GradientIcon(
@@ -199,35 +201,58 @@ class LibraryScreen extends StatelessWidget {
     IconData icon,
     Color color,
   ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.cardBackground,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: ListTile(
-        contentPadding: const EdgeInsets.all(16),
-        leading: Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(
-            icon,
-            color: color,
-          ),
+    return GestureDetector(
+      onTap: () {
+        if (title == 'Liked Songs') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const LikedSongsScreen(),
+            ),
+          );
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppTheme.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.titleLarge,
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Icon(
+                icon,
+                color: color,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppTheme.textPrimary,
+                  ),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.chevron_right,
+              color: AppTheme.textSecondary,
+            ),
+          ],
         ),
-        trailing: const Icon(
-          Icons.chevron_right,
-          color: AppTheme.textSecondary,
-        ),
-        onTap: () {
-          // TODO: Navigate to section
-        },
       ),
     );
   }

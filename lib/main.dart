@@ -21,14 +21,7 @@ class MyApp extends StatelessWidget {
       create: (_) => MusicProvider(),
       child: MaterialApp(
         title: 'iLuvMusik',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.dark(
-            primary: AppTheme.primaryColor,
-            secondary: AppTheme.accentColor,
-            background: AppTheme.darkBackground,
-          ),
-        ),
+        theme: AppTheme.darkTheme,
         home: const MainScreen(),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -14,10 +15,10 @@ class BottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: AppTheme.darkBackground,
         border: Border(
           top: BorderSide(
-            color: Colors.grey[900]!,
+            color: AppTheme.dividerColor,
             width: 0.5,
           ),
         ),
@@ -26,26 +27,29 @@ class BottomNavBar extends StatelessWidget {
         currentIndex: currentIndex,
         onTap: onTap,
         backgroundColor: Colors.transparent,
-        selectedItemColor: Colors.cyan,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: AppTheme.primaryColor,
+        unselectedItemColor: AppTheme.textSecondary,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            activeIcon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Explore',
+            icon: Icon(Icons.search_outlined),
+            activeIcon: Icon(Icons.search),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.library_music),
+            icon: Icon(Icons.library_music_outlined),
+            activeIcon: Icon(Icons.library_music),
             label: 'Library',
           ),
         ],
       ),
     );
   }
-} 
+}

@@ -130,8 +130,7 @@ class MiniPlayer extends StatelessWidget {
                           size: 24,
                           color: Colors.white,
                         ),
-                        onPressed: () =>
-                            musicProvider.togglePlayPause(),
+                        onPressed: () => musicProvider.togglePlayPause(),
                       ),
                     ),
                   ],
