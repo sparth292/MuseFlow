@@ -180,5 +180,26 @@ class AppTheme {
       ),
       overlayColor: primaryColor.withOpacity(0.2),
     ),
+    navigationBarTheme: NavigationBarThemeData(
+      backgroundColor: Colors.transparent,
+      height: 55,
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+      indicatorColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      labelTextStyle: MaterialStateProperty.resolveWith((states) {
+        if (states.contains(MaterialState.selected)) {
+          return TextStyle(
+            color: Color(0xFF00E5FF),
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          );
+        }
+        return TextStyle(
+          color: Colors.grey,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        );
+      }),
+    ),
   );
 }

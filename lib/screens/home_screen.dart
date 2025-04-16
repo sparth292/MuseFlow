@@ -12,6 +12,7 @@ import 'package:iluvmusik/screens/history_screen.dart';
 import 'package:iluvmusik/screens/settings_screen.dart';
 import 'package:iluvmusik/screens/category_screen.dart';
 import 'package:iluvmusik/screens/made_for_you_screen.dart';
+import 'package:iluvmusik/screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -100,13 +101,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                        child: CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          child: Text(
-                            'P',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                        child: GestureDetector( 
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileScreen()),
+                            );
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.transparent,
+                            child: Text(
+                              'P',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
