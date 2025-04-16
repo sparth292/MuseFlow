@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:iluvmusik/screens/home_screen.dart';
-import 'package:iluvmusik/screens/search_screen.dart';
+import 'package:iluvmusik/screens/explore_screen.dart';
 import 'package:iluvmusik/screens/library_screen.dart';
 import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'iLuvMusik',
         theme: AppTheme.darkTheme,
         home: const MainScreen(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
@@ -40,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    SearchScreen(),
+    ExploreScreen(),
     LibraryScreen(),
   ];
 
@@ -59,32 +60,45 @@ class _MainScreenState extends State<MainScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const MiniPlayer(),
-                NavigationBar(
-                  backgroundColor: Colors.black,
-                  selectedIndex: _currentIndex,
-                  onDestinationSelected: (index) {
-                    setState(() {
-                      _currentIndex = index;
-                    });
-                  },
-                  destinations: const [
-                    NavigationDestination(
-                      icon: Icon(Icons.home_outlined),
-                      selectedIcon: Icon(Icons.home, color: Colors.cyan),
-                      label: 'Home',
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    border: Border(
+                      top: BorderSide(
+                        color: Colors.grey[900]!,
+                        width: 0.5,
+                      ),
                     ),
-                    NavigationDestination(
-                      icon: Icon(Icons.search_outlined),
-                      selectedIcon: Icon(Icons.search, color: Colors.cyan),
-                      label: 'Search',
-                    ),
-                    NavigationDestination(
-                      icon: Icon(Icons.library_music_outlined),
-                      selectedIcon:
-                          Icon(Icons.library_music, color: Colors.cyan),
-                      label: 'Library',
-                    ),
-                  ],
+                  ),
+                  child: NavigationBar(
+                    height: 60,
+                    backgroundColor: Colors.black,
+                    indicatorColor: Colors.transparent,
+                    selectedIndex: _currentIndex,
+                    labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                    onDestinationSelected: (index) {
+                      setState(() {
+                        _currentIndex = index;
+                      });
+                    },
+                    destinations: [
+                      NavigationDestination(
+                        icon: Icon(Icons.home_outlined, color: Colors.grey),
+                        selectedIcon: Icon(Icons.home, color: Color(0xFF00E5FF)),
+                        label: 'Home',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.explore_outlined, color: Colors.grey),
+                        selectedIcon: Icon(Icons.explore, color: Color(0xFF00E5FF)),
+                        label: 'Explore',
+                      ),
+                      NavigationDestination(
+                        icon: Icon(Icons.library_music_outlined, color: Colors.grey),
+                        selectedIcon: Icon(Icons.library_music, color: Color(0xFF00E5FF)),
+                        label: 'Library',
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
