@@ -72,7 +72,6 @@ class LibraryScreen extends StatelessWidget {
                 ),
               ),
             ),
-
             // Liked Songs
             Consumer<MusicProvider>(
               builder: (context, provider, child) {
@@ -107,6 +106,7 @@ class LibraryScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    hasScrollBody: false,
                   );
                 }
 

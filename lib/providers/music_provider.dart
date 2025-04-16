@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:iluvmusik/screens/home_screen.dart';
 import 'package:iluvmusik/screens/explore_screen.dart';
 import 'package:iluvmusik/screens/library_screen.dart';
-import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
+//import 'package:iluvmusik/widgets/bottom_nav_bar.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
 import 'package:iluvmusik/theme/app_theme.dart';
 import '../models/song.dart';

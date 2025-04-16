@@ -2,7 +2,7 @@
     package="com.example.iluvmusik"> <!-- Ensure package is correct -->
 
     <application
-        android:label="iluvmusik"
+        android:label="MuseFlow"
         android:icon="@mipmap/ic_launcher"> <!-- Ensure this line is correct -->
 
         <activity

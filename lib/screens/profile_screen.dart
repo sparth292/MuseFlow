@@ -260,6 +260,7 @@ class ProfileScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                      hasScrollBody: false,
                     );
                   }
 
