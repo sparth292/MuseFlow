@@ -6,8 +6,14 @@ import 'package:iluvmusik/screens/library_screen.dart';
 import 'package:iluvmusik/widgets/mini_player.dart';
 import 'package:iluvmusik/providers/music_provider.dart';
 import 'package:iluvmusik/theme/app_theme.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+void main() async {
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Supabase.initialize(
+  //   url: 'https://qfqnzlvijvcjcxacxrfn.supabase.co',
+  //   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmcW56bHZpanZjamN4YWN4cmZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MTExODUsImV4cCI6MjA2MDQ4NzE4NX0.jQoFQOWuWud-9CkHqVaum2qAzNIB2J1y6TfooqXpgXo',
+  // );
   runApp(const MyApp());
 }
 
@@ -19,7 +25,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => MusicProvider(),
       child: MaterialApp(
-        title: 'iLuvMusik',
+        title: 'MuseFlow',
         theme: AppTheme.darkTheme,
         home: const MainScreen(),
         debugShowCheckedModeBanner: false,
