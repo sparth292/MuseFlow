@@ -1,6 +1,6 @@
-# iluvmusik
+# MuseFlow
 
-iluvmusik - Made by [Parth Salunke](https://github.com/sparth292) & [Prayag Upadhyaya](https://github.com/prayagupa23)
+MuseFlow - Made by [Parth Salunke](https://github.com/sparth292) & [Prayag Upadhyaya](https://github.com/prayagupa23)
 
 A simple and elegant music player application designed for seamless audio playback and an immersive music experience.
 
