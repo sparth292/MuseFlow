@@ -72,123 +72,123 @@ class LibraryScreen extends StatelessWidget {
                 ),
               ),
             ),
-            // Liked Songs
-            Consumer<MusicProvider>(
-              builder: (context, provider, child) {
-                if (provider.likedSongs.isEmpty) {
-                  return SliverFillRemaining(
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(24),
-                            decoration: BoxDecoration(
-                              color: AppTheme.cardBackground,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              Icons.favorite_border,
-                              size: 48,
-                              color: AppTheme.textSecondary.withOpacity(0.5),
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          Text(
-                            'No liked songs yet',
-                            style: Theme.of(context).textTheme.headlineMedium,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Like songs to see them here',
-                            style: Theme.of(context).textTheme.bodyMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                    hasScrollBody: false,
-                  );
-                }
+            // // Liked Songs
+            // Consumer<MusicProvider>(
+            //   builder: (context, provider, child) {
+            //     if (provider.likedSongs.isEmpty) {
+            //       return SliverFillRemaining(
+            //         child: Center(
+            //           child: Column(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: [
+            //               Container(
+            //                 padding: const EdgeInsets.all(24),
+            //                 decoration: BoxDecoration(
+            //                   color: AppTheme.cardBackground,
+            //                   shape: BoxShape.circle,
+            //                 ),
+            //                 child: Icon(
+            //                   Icons.favorite_border,
+            //                   size: 48,
+            //                   color: AppTheme.textSecondary.withOpacity(0.5),
+            //                 ),
+            //               ),
+            //               const SizedBox(height: 24),
+            //               Text(
+            //                 'No liked songs yet',
+            //                 style: Theme.of(context).textTheme.headlineMedium,
+            //               ),
+            //               const SizedBox(height: 8),
+            //               Text(
+            //                 'Like songs to see them here',
+            //                 style: Theme.of(context).textTheme.bodyMedium,
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         hasScrollBody: false,
+            //       );
+            //     }
 
-                return SliverPadding(
-                  padding: const EdgeInsets.all(24.0),
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final song = provider.likedSongs[index];
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            color: AppTheme.cardBackground,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(12),
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                song.thumbnailUrl,
-                                width: 56,
-                                height: 56,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Container(
-                                    width: 56,
-                                    height: 56,
-                                    color: AppTheme.cardBackground,
-                                    child: Icon(
-                                      Icons.music_note,
-                                      color: AppTheme.textSecondary
-                                          .withOpacity(0.5),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                            title: Text(
-                              song.title,
-                              style: Theme.of(context).textTheme.titleMedium,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Text(
-                              song.artist,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            trailing: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: AppTheme.error,
-                                  ),
-                                  onPressed: () =>
-                                      provider.toggleLikeSong(song),
-                                ),
-                                IconButton(
-                                  icon: const GradientIcon(
-                                    Icons.play_circle_fill,
-                                    32,
-                                    LinearGradient(
-                                      colors: [Colors.white, Colors.white70],
-                                    ),
-                                  ),
-                                  onPressed: () => provider.playSong(song),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      childCount: provider.likedSongs.length,
-                    ),
-                  ),
-                );
-              },
-            ),
+            //     return SliverPadding(
+            //       padding: const EdgeInsets.all(24.0),
+            //       sliver: SliverList(
+            //         delegate: SliverChildBuilderDelegate(
+            //           (context, index) {
+            //             final song = provider.likedSongs[index];
+            //             return Container(
+            //               margin: const EdgeInsets.only(bottom: 12),
+            //               decoration: BoxDecoration(
+            //                 color: AppTheme.cardBackground,
+            //                 borderRadius: BorderRadius.circular(12),
+            //               ),
+            //               child: ListTile(
+            //                 contentPadding: const EdgeInsets.all(12),
+            //                 leading: ClipRRect(
+            //                   borderRadius: BorderRadius.circular(8),
+            //                   child: Image.network(
+            //                     song.thumbnailUrl,
+            //                     width: 56,
+            //                     height: 56,
+            //                     fit: BoxFit.cover,
+            //                     errorBuilder: (context, error, stackTrace) {
+            //                       return Container(
+            //                         width: 56,
+            //                         height: 56,
+            //                         color: AppTheme.cardBackground,
+            //                         child: Icon(
+            //                           Icons.music_note,
+            //                           color: AppTheme.textSecondary
+            //                               .withOpacity(0.5),
+            //                         ),
+            //                       );
+            //                     },
+            //                   ),
+            //                 ),
+            //                 title: Text(
+            //                   song.title,
+            //                   style: Theme.of(context).textTheme.titleMedium,
+            //                   maxLines: 1,
+            //                   overflow: TextOverflow.ellipsis,
+            //                 ),
+            //                 subtitle: Text(
+            //                   song.artist,
+            //                   style: Theme.of(context).textTheme.bodyMedium,
+            //                   maxLines: 1,
+            //                   overflow: TextOverflow.ellipsis,
+            //                 ),
+            //                 trailing: Row(
+            //                   mainAxisSize: MainAxisSize.min,
+            //                   children: [
+            //                     IconButton(
+            //                       icon: Icon(
+            //                         Icons.favorite,
+            //                         color: AppTheme.error,
+            //                       ),
+            //                       onPressed: () =>
+            //                           provider.toggleLikeSong(song),
+            //                     ),
+            //                     IconButton(
+            //                       icon: const GradientIcon(
+            //                         Icons.play_circle_fill,
+            //                         32,
+            //                         LinearGradient(
+            //                           colors: [Colors.white, Colors.white70],
+            //                         ),
+            //                       ),
+            //                       onPressed: () => provider.playSong(song),
+            //                     ),
+            //                   ],
+            //                 ),
+            //               ),
+            //             );
+            //           },
+            //           childCount: provider.likedSongs.length,
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ),
           ],
         ),
       ),

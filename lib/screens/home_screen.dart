@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                 // Playlists
                 Container(
-                  height: 200,
+                  height: 240,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     padding: EdgeInsets.symmetric(horizontal: 16),
@@ -330,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                SizedBox(height: 80), // Space for bottom navigation bar
+                SizedBox(height: 50), // Space for bottom navigation bar
               ],
             ),
           ),
