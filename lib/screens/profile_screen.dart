@@ -108,19 +108,19 @@ class ProfileScreen extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _buildStatItem(context, 'Playlists', '12'),
+                            _buildStatItem(context, 'Playlists', '0'),
                             Container(
                               width: 1,
                               height: 40,
                               color: AppTheme.dividerColor,
                             ),
-                            _buildStatItem(context, 'Liked Songs', '48'),
+                            _buildStatItem(context, 'Liked Songs', '0'),
                             Container(
                               width: 1,
                               height: 40,
                               color: AppTheme.dividerColor,
                             ),
-                            _buildStatItem(context, 'Following', '32'),
+                            _buildStatItem(context, 'Following', '0'),
                           ],
                         ),
                       ),
@@ -160,208 +160,208 @@ class ProfileScreen extends StatelessWidget {
               ),
 
               // Liked Songs Section
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Liked Songs',
-                        style: GoogleFonts.poppins(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'See All',
-                          style: GoogleFonts.inter(
-                            color: AppTheme.primaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              // SliverToBoxAdapter(
+              //   child: Padding(
+              //     padding: const EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
+              //     child: Row(
+              //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //       children: [
+              //         Text(
+              //           'Liked Songs',
+              //           style: GoogleFonts.poppins(
+              //             fontSize: 24,
+              //             fontWeight: FontWeight.bold,
+              //             color: AppTheme.textPrimary,
+              //           ),
+              //         ),
+              //         TextButton(
+              //           onPressed: () {},
+              //           child: Text(
+              //             'See All',
+              //             style: GoogleFonts.inter(
+              //               color: AppTheme.primaryColor,
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.w600,
+              //             ),
+              //           ),
+              //         ),
+              //       ],
+              //     ),
+              //   ),
+              // ),
 
-              // Liked Songs List
-              Consumer<MusicProvider>(
-                builder: (context, provider, child) {
-                  if (provider.likedSongs.isEmpty) {
-                    return SliverFillRemaining(
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(24),
-                              decoration: BoxDecoration(
-                                color: AppTheme.cardBackground,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Icon(
-                                Icons.favorite_border,
-                                size: 48,
-                                color: AppTheme.textSecondary.withOpacity(0.5),
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            Text(
-                              'No liked songs yet',
-                              style: GoogleFonts.poppins(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                color: AppTheme.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Like songs to see them here',
-                              style: GoogleFonts.inter(
-                                fontSize: 16,
-                                color: AppTheme.textSecondary,
-                              ),
-                            ),
-                            const SizedBox(height: 32),
-                            SizedBox(
-                              width: 200,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  // Navigate to search screen
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppTheme.primaryColor,
-                                  foregroundColor: Colors.white,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  elevation: 4,
-                                  shadowColor:
-                                      AppTheme.primaryColor.withOpacity(0.3),
-                                ),
-                                child: Text(
-                                  'Discover Music',
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      hasScrollBody: false,
-                    );
-                  }
+              // // Liked Songs List
+              // Consumer<MusicProvider>(
+              //   builder: (context, provider, child) {
+              //     if (provider.likedSongs.isEmpty) {
+              //       return SliverFillRemaining(
+              //         child: Center(
+              //           child: Column(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             children: [
+              //               Container(
+              //                 padding: const EdgeInsets.all(24),
+              //                 decoration: BoxDecoration(
+              //                   color: AppTheme.cardBackground,
+              //                   shape: BoxShape.circle,
+              //                 ),
+              //                 child: Icon(
+              //                   Icons.favorite_border,
+              //                   size: 48,
+              //                   color: AppTheme.textSecondary.withOpacity(0.5),
+              //                 ),
+              //               ),
+              //               const SizedBox(height: 24),
+              //               Text(
+              //                 'No liked songs yet',
+              //                 style: GoogleFonts.poppins(
+              //                   fontSize: 20,
+              //                   fontWeight: FontWeight.w600,
+              //                   color: AppTheme.textPrimary,
+              //                 ),
+              //               ),
+              //               const SizedBox(height: 8),
+              //               Text(
+              //                 'Like songs to see them here',
+              //                 style: GoogleFonts.inter(
+              //                   fontSize: 16,
+              //                   color: AppTheme.textSecondary,
+              //                 ),
+              //               ),
+              //               const SizedBox(height: 32),
+              //               SizedBox(
+              //                 width: 200,
+              //                 child: ElevatedButton(
+              //                   onPressed: () {
+              //                     // Navigate to search screen
+              //                   },
+              //                   style: ElevatedButton.styleFrom(
+              //                     backgroundColor: AppTheme.primaryColor,
+              //                     foregroundColor: Colors.white,
+              //                     padding: const EdgeInsets.symmetric(
+              //                       vertical: 16,
+              //                     ),
+              //                     shape: RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.circular(16),
+              //                     ),
+              //                     elevation: 4,
+              //                     shadowColor:
+              //                         AppTheme.primaryColor.withOpacity(0.3),
+              //                   ),
+              //                   child: Text(
+              //                     'Discover Music',
+              //                     style: GoogleFonts.inter(
+              //                       fontSize: 16,
+              //                       fontWeight: FontWeight.w600,
+              //                     ),
+              //                   ),
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //         hasScrollBody: false,
+              //       );
+              //     }
 
-                  return SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          final song = provider.likedSongs[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 12),
-                            decoration: BoxDecoration(
-                              color: AppTheme.cardBackground,
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 4,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: ListTile(
-                              contentPadding: const EdgeInsets.all(12),
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: CachedNetworkImage(
-                                  imageUrl: song.thumbnailUrl,
-                                  width: 56,
-                                  height: 56,
-                                  fit: BoxFit.cover,
-                                  placeholder: (context, url) => Container(
-                                    color: AppTheme.cardBackground,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Container(
-                                    color: AppTheme.cardBackground,
-                                    child: Icon(
-                                      Icons.music_note,
-                                      color: AppTheme.textSecondary
-                                          .withOpacity(0.5),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              title: Text(
-                                song.title,
-                                style: GoogleFonts.poppins(
-                                  color: AppTheme.textPrimary,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              subtitle: Text(
-                                song.artist,
-                                style: GoogleFonts.inter(
-                                  color: AppTheme.textSecondary,
-                                  fontSize: 14,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.favorite,
-                                      color: AppTheme.error,
-                                      size: 24,
-                                    ),
-                                    onPressed: () => provider.toggleLike(),
-                                  ),
-                                  IconButton(
-                                    icon: const GradientIcon(
-                                      Icons.play_circle_fill,
-                                      32,
-                                      LinearGradient(
-                                        colors: [Colors.white, Colors.white70],
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      provider.playSong(song);
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                        childCount: provider.likedSongs.length,
-                      ),
-                    ),
-                  );
-                },
-              ),
+              //     return SliverPadding(
+              //       padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              //       sliver: SliverList(
+              //         delegate: SliverChildBuilderDelegate(
+              //           (context, index) {
+              //             final song = provider.likedSongs[index];
+              //             return Container(
+              //               margin: const EdgeInsets.only(bottom: 12),
+              //               decoration: BoxDecoration(
+              //                 color: AppTheme.cardBackground,
+              //                 borderRadius: BorderRadius.circular(12),
+              //                 boxShadow: [
+              //                   BoxShadow(
+              //                     color: Colors.black.withOpacity(0.1),
+              //                     blurRadius: 4,
+              //                     offset: const Offset(0, 2),
+              //                   ),
+              //                 ],
+              //               ),
+              //               child: ListTile(
+              //                 contentPadding: const EdgeInsets.all(12),
+              //                 leading: ClipRRect(
+              //                   borderRadius: BorderRadius.circular(8),
+              //                   child: CachedNetworkImage(
+              //                     imageUrl: song.thumbnailUrl,
+              //                     width: 56,
+              //                     height: 56,
+              //                     fit: BoxFit.cover,
+              //                     placeholder: (context, url) => Container(
+              //                       color: AppTheme.cardBackground,
+              //                       child: const Center(
+              //                         child: CircularProgressIndicator(),
+              //                       ),
+              //                     ),
+              //                     errorWidget: (context, url, error) =>
+              //                         Container(
+              //                       color: AppTheme.cardBackground,
+              //                       child: Icon(
+              //                         Icons.music_note,
+              //                         color: AppTheme.textSecondary
+              //                             .withOpacity(0.5),
+              //                       ),
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 title: Text(
+              //                   song.title,
+              //                   style: GoogleFonts.poppins(
+              //                     color: AppTheme.textPrimary,
+              //                     fontSize: 16,
+              //                     fontWeight: FontWeight.w600,
+              //                   ),
+              //                   maxLines: 1,
+              //                   overflow: TextOverflow.ellipsis,
+              //                 ),
+              //                 subtitle: Text(
+              //                   song.artist,
+              //                   style: GoogleFonts.inter(
+              //                     color: AppTheme.textSecondary,
+              //                     fontSize: 14,
+              //                   ),
+              //                   maxLines: 1,
+              //                   overflow: TextOverflow.ellipsis,
+              //                 ),
+              //                 trailing: Row(
+              //                   mainAxisSize: MainAxisSize.min,
+              //                   children: [
+              //                     IconButton(
+              //                       icon: Icon(
+              //                         Icons.favorite,
+              //                         color: AppTheme.error,
+              //                         size: 24,
+              //                       ),
+              //                       onPressed: () => provider.toggleLike(),
+              //                     ),
+              //                     IconButton(
+              //                       icon: const GradientIcon(
+              //                         Icons.play_circle_fill,
+              //                         32,
+              //                         LinearGradient(
+              //                           colors: [Colors.white, Colors.white70],
+              //                         ),
+              //                       ),
+              //                       onPressed: () {
+              //                         provider.playSong(song);
+              //                       },
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             );
+              //           },
+              //           childCount: provider.likedSongs.length,
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
 
               // Bottom padding
               const SliverToBoxAdapter(

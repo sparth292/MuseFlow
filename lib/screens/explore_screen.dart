@@ -222,7 +222,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                 ),
                                 SizedBox(height: 16),
                                 Container(
-                                  height: 200,
+                                  height: 240,
                                   child: ListView(
                                     scrollDirection: Axis.horizontal,
                                     children: [
@@ -236,7 +236,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             ),
                           ),
 
-                          SizedBox(height: 80), // Bottom padding for navigation bar
+                          SizedBox(height: 50), // Bottom padding for navigation bar
                         ],
                       ),
                     ),
