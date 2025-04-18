@@ -8,11 +8,17 @@ import 'package:iluvmusik/providers/music_provider.dart';
 import 'package:iluvmusik/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+// MuseFlow Auth Screens
+import 'package:iluvmusik/screens/auth/splash_screen.dart';
+import 'package:iluvmusik/screens/auth/login_screen.dart';
+import 'package:iluvmusik/screens/auth/signup_screen.dart';
+import 'package:iluvmusik/screens/auth/pin_screen.dart';
+
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
   // await Supabase.initialize(
   //   url: 'https://qfqnzlvijvcjcxacxrfn.supabase.co',
-  //   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmcW56bHZpanZjamN4YWN4cmZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MTExODUsImV4cCI6MjA2MDQ4NzE4NX0.jQoFQOWuWud-9CkHqVaum2qAzNIB2J1y6TfooqXpgXo',
+  //   anonKey: 'your-anon-key',
   // );
   runApp(const MyApp());
 }
@@ -27,8 +33,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'MuseFlow',
         theme: AppTheme.darkTheme,
-        home: const MainScreen(),
         debugShowCheckedModeBanner: false,
+        initialRoute: '/splash',
+        routes: {
+          '/splash': (context) => const SplashScreen(),
+          '/login': (context) => const LoginScreen(),
+          '/signup': (context) => const SignupScreen(),
+          '/pin': (context) => const PinVerificationScreen(),
+          '/main': (context) => const HomeScreen(),
+        },
       ),
     );
   }
