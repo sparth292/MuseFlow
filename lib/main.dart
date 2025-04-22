@@ -12,14 +12,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:iluvmusik/screens/auth/splash_screen.dart';
 import 'package:iluvmusik/screens/auth/login_screen.dart';
 import 'package:iluvmusik/screens/auth/signup_screen.dart';
-import 'package:iluvmusik/screens/auth/pin_screen.dart';
+//import 'package:iluvmusik/screens/auth/pin_screen.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Supabase.initialize(
-  //   url: 'https://qfqnzlvijvcjcxacxrfn.supabase.co',
-  //   anonKey: 'your-anon-key',
-  // );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://qfqnzlvijvcjcxacxrfn.supabase.co',
+    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFmcW56bHZpanZjamN4YWN4cmZuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MTExODUsImV4cCI6MjA2MDQ4NzE4NX0.jQoFQOWuWud-9CkHqVaum2qAzNIB2J1y6TfooqXpgXo',
+  );
   runApp(const MyApp());
 }
 
@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
           '/splash': (context) => const SplashScreen(),
           '/login': (context) => const LoginScreen(),
           '/signup': (context) => const SignupScreen(),
-          '/pin': (context) => const PinVerificationScreen(),
-          '/main': (context) => const HomeScreen(),
+          //'/pin': (context) => const PinVerificationScreen(), // ✅ uncommented
+          '/main': (context) => const MainScreen(),
         },
       ),
     );
@@ -88,18 +88,18 @@ class _MainScreenState extends State<MainScreen> {
             },
             destinations: const [
               NavigationDestination(
-                icon: Icon(Icons.home_outlined, color: Colors.grey, size: 24),
-                selectedIcon: Icon(Icons.home, color: Color(0xFF00E5FF), size: 24),
+                icon: Icon(Icons.home_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.home, color: Color(0xFF00E5FF)),
                 label: 'Home',
               ),
               NavigationDestination(
-                icon: Icon(Icons.explore_outlined, color: Colors.grey, size: 24),
-                selectedIcon: Icon(Icons.explore, color: Color(0xFF00E5FF), size: 24),
+                icon: Icon(Icons.explore_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.explore, color: Color(0xFF00E5FF)),
                 label: 'Explore',
               ),
               NavigationDestination(
-                icon: Icon(Icons.library_music_outlined, color: Colors.grey, size: 24),
-                selectedIcon: Icon(Icons.library_music, color: Color(0xFF00E5FF), size: 24),
+                icon: Icon(Icons.library_music_outlined, color: Colors.grey),
+                selectedIcon: Icon(Icons.library_music, color: Color(0xFF00E5FF)),
                 label: 'Library',
               ),
             ],

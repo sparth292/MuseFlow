@@ -34,63 +34,26 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'PIN VERIFICATION',
-              style: GoogleFonts.poppins(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text('PIN VERIFICATION', style: GoogleFonts.poppins(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
             const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                4,
-                (index) => Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: index < pin.length ? Colors.white : Colors.grey,
-                  ),
-                ),
-              ),
-            ),
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: List.generate(4, (i) => Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10), width: 20, height: 20,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: i < pin.length ? Colors.white : Colors.grey),
+            ))),
             const SizedBox(height: 40),
             GridView.builder(
               shrinkWrap: true,
               padding: const EdgeInsets.symmetric(horizontal: 60),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1.5,
-              ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 12, crossAxisSpacing: 12, childAspectRatio: 1.5),
               itemCount: 12,
               itemBuilder: (context, index) {
-                String label;
-                if (index < 9) label = '${index + 1}';
-                else if (index == 9) label = '';
-                else if (index == 10) label = '0';
-                else label = '<';
-
+                final label = index < 9 ? '${index+1}' : index==9 ? '' : index==10?'0':'<';
                 return Material(
-                  color: const Color(0xFF1C1C1E),
-                  borderRadius: BorderRadius.circular(12),
+                  color: const Color(0xFF1C1C1E), borderRadius: BorderRadius.circular(12),
                   child: InkWell(
                     onTap: label.isNotEmpty ? () => _onKeyPress(label) : null,
                     borderRadius: BorderRadius.circular(12),
-                    child: Center(
-                      child: Text(
-                        label,
-                        style: GoogleFonts.poppins(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
+                    child: Center(child: Text(label, style: GoogleFonts.poppins(color: Colors.white, fontSize: 20))),
                   ),
                 );
               },
