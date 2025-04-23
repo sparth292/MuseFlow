@@ -27,7 +27,7 @@ serve(async (req) => {
 
     const emailData = {
       from: {
-        email: "your_verified@yourdomain.com", // Replace with your MailerSend verified sender
+        email: "noreply@museflowsoft.tech", // Replace with your MailerSend verified sender
         name: "MuseFlow App",
       },
       to: [{ email }],
