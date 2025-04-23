@@ -164,13 +164,14 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Padding(
+        child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Spacer(),
+              const SizedBox(height: 20),
               Text(
                 'CREATE YOUR ACCOUNT',
                 style: GoogleFonts.poppins(
@@ -180,8 +181,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Username input
               TextField(
                 controller: _nameController,
                 style: const TextStyle(color: Colors.white),
@@ -197,8 +196,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Email input
               TextField(
                 controller: _emailController,
                 style: const TextStyle(color: Colors.white),
@@ -214,8 +211,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // Send OTP Button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -233,8 +228,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 12),
-
-              // OTP input and Verify OTP button
               if (_isOtpSent) ...[
                 TextField(
                   controller: _otpController,
@@ -269,8 +262,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ],
               const SizedBox(height: 12),
-
-              // Password input
               TextField(
                 controller: _passwordController,
                 obscureText: true,
@@ -287,8 +278,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
               ),
               const SizedBox(height: 20),
-
-              // Sign Up button
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
@@ -304,7 +293,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                 ),
               ),
-              const Spacer(),
+              const SizedBox(height: 40), // Replaced Spacer()
             ],
           ),
         ),
