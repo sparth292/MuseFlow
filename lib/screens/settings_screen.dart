@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SettingsScreen extends StatelessWidget {
+  const SettingsScreen({super.key});
+
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      await Supabase.instance.client.auth.signOut();
+
+      // Replace navigation stack with SplashScreen
+      if (context.mounted) {
+        Navigator.pushNamedAndRemoveUntil(context, '/splash', (route) => false);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Sign out failed: ${e.toString()}')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,10 +33,10 @@ class SettingsScreen extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back, color: Colors.white),
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
                     onPressed: () => Navigator.pop(context),
                   ),
-                  Text(
+                  const Text(
                     'Settings',
                     style: TextStyle(
                       color: Colors.white,
@@ -73,15 +91,15 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => _signOut(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
-                          minimumSize: Size(double.infinity, 48),
+                          minimumSize: const Size(double.infinity, 48),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           'Sign Out',
                           style: TextStyle(
                             color: Colors.white,
@@ -109,7 +127,7 @@ class SettingsScreen extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.grey,
               fontSize: 14,
               fontWeight: FontWeight.bold,
@@ -126,13 +144,13 @@ class SettingsScreen extends StatelessWidget {
       leading: Icon(icon, color: Colors.white),
       title: Text(
         title,
-        style: TextStyle(
+        style: const TextStyle(
           color: Colors.white,
           fontSize: 16,
         ),
       ),
-      trailing: Icon(Icons.chevron_right, color: Colors.grey),
+      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
       onTap: () {},
     );
   }
-} 
+}
