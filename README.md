@@ -17,3 +17,4 @@ A simple and elegant music player application designed for seamless audio playba
 6. Dark Mode – Enjoy music with a sleek UI
 
 7. Background Play – Keep your music playing while using other apps
+
